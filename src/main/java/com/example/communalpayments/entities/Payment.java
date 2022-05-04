@@ -3,6 +3,7 @@ package com.example.communalpayments.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -46,5 +47,13 @@ public class Payment {
         this.status = PaymentStatus.NEW;
         this.timeOfCreation = LocalDateTime.now();
         this.timeStatusChange = null;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", timeStatusChange=" + timeStatusChange +
+                '}';
     }
 }
