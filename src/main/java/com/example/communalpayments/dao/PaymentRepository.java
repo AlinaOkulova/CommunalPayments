@@ -1,7 +1,9 @@
 package com.example.communalpayments.dao;
 
 import com.example.communalpayments.entities.Payment;
+import com.example.communalpayments.entities.PaymentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -18,7 +20,14 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             where d.id = :id\s""", nativeQuery = true)
     List<Payment> getAllByUserId(@Param("id") long id);
 
+
     @Query(value = "select * from communal_payments.client_payments where status = 'NEW' for update",
             nativeQuery = true)
     List<Payment> getAllWhereStatusNew();
+
+
+    @Modifying
+    @Query(value = "update communal_payments.client_payments set status = 'IN_PROCESS', " +
+            "status_change_time = current_timestamp where id in :ids", nativeQuery = true)
+    void updateStatusToInProcess(List<Long> ids);
 }

@@ -2,8 +2,8 @@ package com.example.communalpayments.controllers;
 
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
-import com.example.communalpayments.services.BillingAddressService;
-import com.example.communalpayments.services.TemplateService;
+import com.example.communalpayments.services.BillingAddressServiceImpl;
+import com.example.communalpayments.services.TemplateServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,11 @@ import java.util.List;
 @RequestMapping("/api/templates")
 public class TemplateController {
 
-    private final BillingAddressService billingAddressService;
-    private final TemplateService templateService;
+    private final BillingAddressServiceImpl billingAddressService;
+    private final TemplateServiceImpl templateService;
 
     @Autowired
-    public TemplateController(BillingAddressService billingAddressService, TemplateService templateService) {
+    public TemplateController(BillingAddressServiceImpl billingAddressService, TemplateServiceImpl templateService) {
         this.billingAddressService = billingAddressService;
         this.templateService = templateService;
     }
@@ -26,7 +26,7 @@ public class TemplateController {
     @GetMapping
     public List<Template> getAllTemplatesByAddress(@RequestBody BillingAddress billingAddress) {
         long addressId = billingAddressService.getAddressId(billingAddress);
-        return templateService.getAllById(addressId);
+        return templateService.getAllTemplatesById(addressId);
     }
 
     @PostMapping

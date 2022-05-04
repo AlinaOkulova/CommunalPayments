@@ -2,8 +2,8 @@ package com.example.communalpayments.controllers;
 
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.User;
-import com.example.communalpayments.services.BillingAddressService;
-import com.example.communalpayments.services.UserService;
+import com.example.communalpayments.services.BillingAddressServiceImpl;
+import com.example.communalpayments.services.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,11 @@ import java.util.List;
 @RequestMapping("/api/billing-addresses")
 public class BillingAddressController {
 
-    private final BillingAddressService billingAddressService;
-    private final UserService userService;
+    private final BillingAddressServiceImpl billingAddressService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public BillingAddressController(BillingAddressService billingAddressService, UserService userService) {
+    public BillingAddressController(BillingAddressServiceImpl billingAddressService, UserServiceImpl userService) {
         this.billingAddressService = billingAddressService;
         this.userService = userService;
     }
@@ -26,7 +26,7 @@ public class BillingAddressController {
     @GetMapping
     public List<BillingAddress> getAllAddressesByUser(@RequestBody User user) {
         long userId = userService.getUserId(user);
-        return billingAddressService.getAllById(userId);
+        return billingAddressService.getAllAddressById(userId);
     }
 
     @PostMapping
