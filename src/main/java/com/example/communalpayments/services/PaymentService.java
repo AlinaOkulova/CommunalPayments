@@ -3,6 +3,7 @@ package com.example.communalpayments.services;
 import com.example.communalpayments.entities.Payment;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface PaymentService {
 
@@ -10,5 +11,5 @@ public interface PaymentService {
 
     void saveAll(List<Payment> payments);
 
-    Payment createPayment(Payment payment);
+    CompletableFuture<Payment> createPayment(Payment payment);
 }

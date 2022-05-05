@@ -19,6 +19,7 @@ public class SchedulerService {
 
     private final RestTemplate restTemplate;
     private final PaymentRepository paymentRepository;
+    private int amountOfUpdated = 1;
 
 
     public SchedulerService(RestTemplateBuilder restTemplateBuilder, PaymentRepository repository) {
@@ -29,22 +30,25 @@ public class SchedulerService {
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
     @Transactional
     public void handleNewPayments() {
-        try {
-            URI url = new URI("http://localhost:8081/api/payment-handler");
-            List<Payment> payments = paymentRepository.getAllWhereStatusNew();
-            System.out.println(payments);
+        if(amountOfUpdated > 0) {
+            try {
+                URI url = new URI("http://localhost:8081/api/payment-handler");
+                List<Payment> payments = paymentRepository.getAllWhereStatusNew();
+                System.out.println(payments);
 
-            if(!payments.isEmpty()) {
-                List<Long> ids = payments.stream().map(Payment::getId).toList();
-                paymentRepository.updateStatusToInProcess(ids);
+                if(!payments.isEmpty()) {
+                    amountOfUpdated = 0;
+                    List<Long> ids = payments.stream().map(Payment::getId).toList();
+                    amountOfUpdated = paymentRepository.updateStatusToInProcess(ids);
 
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                HttpEntity<List<Payment>> httpEntity = new HttpEntity<>(payments, httpHeaders);
-                restTemplate.exchange(url, HttpMethod.POST, httpEntity, HttpStatus.class);
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                    HttpEntity<List<Payment>> httpEntity = new HttpEntity<>(payments, httpHeaders);
+                    restTemplate.exchange(url, HttpMethod.POST, httpEntity, HttpStatus.class);
+                }
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         }
     }
 }

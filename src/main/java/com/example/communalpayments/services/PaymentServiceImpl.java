@@ -4,9 +4,11 @@ import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.entities.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @org.springframework.stereotype.Service
 public class PaymentServiceImpl implements Service<Payment, Long>, PaymentService {
@@ -45,12 +47,15 @@ public class PaymentServiceImpl implements Service<Payment, Long>, PaymentServic
         return payment;
     }
 
+    @Async
     @Override
-    public Payment createPayment(Payment payment) {
+    public CompletableFuture<Payment> createPayment(Payment payment) {
         long templateId = payment.getTemplate().getId();
         Template template = templateService.get(templateId);
         String cardNumber = payment.getCardNumber();
         double amount = payment.getAmount();
-        return new Payment(template, cardNumber, amount);
+        Payment newPayment = new Payment(template, cardNumber, amount);
+        save(newPayment);
+        return CompletableFuture.completedFuture(newPayment);
     }
 }

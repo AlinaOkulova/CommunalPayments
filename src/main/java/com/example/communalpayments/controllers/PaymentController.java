@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -31,9 +32,13 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
-        Payment payment1 = paymentService.createPayment(payment);
-        paymentService.save(payment1);
+        Payment newPayment = null;
+        try {
+            newPayment = paymentService.createPayment(payment).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
 
-        return ResponseEntity.ok(payment1);
+        return ResponseEntity.ok(newPayment);
     }
 }
