@@ -1,4 +1,4 @@
-package com.example.communalpayments.services;
+package com.example.communalpayments.services.interfaces;
 
 import com.example.communalpayments.entities.Payment;
 
@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 public interface PaymentService {
 
-    List<Payment> getAllByUserId(Long userId);
+    List<Payment> getAllPaymentsByUserId(Long userId);
 
     void saveAll(List<Payment> payments);
 

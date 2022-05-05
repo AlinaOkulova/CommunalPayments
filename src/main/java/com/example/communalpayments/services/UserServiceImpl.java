@@ -2,6 +2,8 @@ package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.User;
+import com.example.communalpayments.services.interfaces.Service;
+import com.example.communalpayments.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;

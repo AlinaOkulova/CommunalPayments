@@ -1,4 +1,4 @@
-package com.example.communalpayments.services;
+package com.example.communalpayments.services.interfaces;
 
 import com.example.communalpayments.entities.Template;
 
@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TemplateService {
 
-    List<Template> getAllTemplatesById(Long templateId);
+    List<Template> getAllTemplatesByAddressId(Long addressId);
 
     Template create(Template template);
 }

@@ -3,6 +3,8 @@ package com.example.communalpayments.services;
 import com.example.communalpayments.dao.TemplateRepository;
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
+import com.example.communalpayments.services.interfaces.Service;
+import com.example.communalpayments.services.interfaces.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class TemplateServiceImpl implements Service<Template, Long>, TemplateSer
     }
 
     @Override
-    public List<Template> getAllTemplatesById(Long templateId) {
-        return templateRepository.getTemplatesByAddressId(templateId);
+    public List<Template> getAllTemplatesByAddressId(Long addressId) {
+        return templateRepository.getTemplatesByAddressId(addressId);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class PaymentController {
     @GetMapping
     public List<Payment> getAllPaymentsByUser(@RequestBody User user) {
         long userId = userService.getUserId(user);
-        return paymentService.getAllByUserId(userId);
+        return paymentService.getAllPaymentsByUserId(userId);
     }
 
     @PostMapping

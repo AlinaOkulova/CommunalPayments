@@ -26,7 +26,7 @@ public class BillingAddressController {
     @GetMapping
     public List<BillingAddress> getAllAddressesByUser(@RequestBody User user) {
         long userId = userService.getUserId(user);
-        return billingAddressService.getAllAddressById(userId);
+        return billingAddressService.getAllAddressByUserId(userId);
     }
 
     @PostMapping

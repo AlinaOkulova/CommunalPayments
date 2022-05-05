@@ -1,4 +1,4 @@
-package com.example.communalpayments.services;
+package com.example.communalpayments.services.interfaces;
 
 public interface Service<E, T> {
 

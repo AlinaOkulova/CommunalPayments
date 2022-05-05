@@ -3,6 +3,8 @@ package com.example.communalpayments.services;
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.entities.Template;
+import com.example.communalpayments.services.interfaces.PaymentService;
+import com.example.communalpayments.services.interfaces.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 
@@ -23,7 +25,7 @@ public class PaymentServiceImpl implements Service<Payment, Long>, PaymentServic
     }
 
     @Override
-    public List<Payment> getAllByUserId(Long userId) {
+    public List<Payment> getAllPaymentsByUserId(Long userId) {
         return paymentRepository.getAllByUserId(userId);
     }
 

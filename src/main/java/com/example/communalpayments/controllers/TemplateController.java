@@ -26,7 +26,7 @@ public class TemplateController {
     @GetMapping
     public List<Template> getAllTemplatesByAddress(@RequestBody BillingAddress billingAddress) {
         long addressId = billingAddressService.getAddressId(billingAddress);
-        return templateService.getAllTemplatesById(addressId);
+        return templateService.getAllTemplatesByAddressId(addressId);
     }
 
     @PostMapping

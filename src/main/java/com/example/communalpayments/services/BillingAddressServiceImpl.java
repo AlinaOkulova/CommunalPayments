@@ -3,6 +3,8 @@ package com.example.communalpayments.services;
 import com.example.communalpayments.dao.BillingAddressRepository;
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.User;
+import com.example.communalpayments.services.interfaces.BillingAddressService;
+import com.example.communalpayments.services.interfaces.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class BillingAddressServiceImpl implements Service<BillingAddress, Long>,
     }
 
     @Override
-    public List<BillingAddress> getAllAddressById(Long addressId) {
-        return billingAddressRepository.getBillingAddressesByUserId(addressId);
+    public List<BillingAddress> getAllAddressByUserId(Long userId) {
+        return billingAddressRepository.getBillingAddressesByUserId(userId);
     }
 
     @Override
