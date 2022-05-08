@@ -1,4 +1,4 @@
-package com.example.communalpayments.controllers;
+package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.services.UserServiceImpl;

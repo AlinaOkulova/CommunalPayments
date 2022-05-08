@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(schema = "communal_payments", name = "client_billing_addresses")
+@Table(schema = "communal_payments", name = "billing_addresses")
 public class BillingAddress {
 
     @Id()
@@ -35,12 +35,4 @@ public class BillingAddress {
                 mappedBy = "address")
     @JsonManagedReference
     private List<Template> templates;
-
-//    public void addTemplateToAddress(Template template) {
-//        if (templates == null) {
-//            templates = new ArrayList<>();
-//        }
-//        templates.add(template);
-//        template.setAddress(this);
-//    }
 }

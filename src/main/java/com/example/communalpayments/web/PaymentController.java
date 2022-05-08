@@ -1,4 +1,4 @@
-package com.example.communalpayments.controllers;
+package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.entities.User;
@@ -30,7 +30,7 @@ public class PaymentController {
         return paymentService.getAllPaymentsByUserId(userId);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Payment> createPayment(@RequestBody Payment payment) {
         Payment newPayment = null;
         try {

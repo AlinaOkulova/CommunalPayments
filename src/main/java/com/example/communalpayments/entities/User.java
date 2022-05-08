@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(schema = "communal_payments", name = "client_data")
+@Table(schema = "communal_payments", name = "users")
 public class User {
 
     @Id()
@@ -41,13 +41,4 @@ public class User {
                 mappedBy = "user")
     @JsonManagedReference
     private List<BillingAddress> billingAddresses;
-
-//    public void addAddressToUser(BillingAddress billingAddress) {
-//        if(billingAddresses == null) {
-//            billingAddresses = new ArrayList<>();
-//        }
-//        billingAddresses.add(billingAddress);
-//        billingAddress.setUser(this);
-//    }
-
 }
