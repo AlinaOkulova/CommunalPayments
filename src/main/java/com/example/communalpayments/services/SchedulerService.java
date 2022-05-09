@@ -29,7 +29,7 @@ public class SchedulerService {
     public void handleNewPayments() {
             try {
                 URI url = new URI("http://localhost:8081/api/payment-handler");
-                List<Payment> payments = paymentRepository.getAllWhereStatusNew();
+                List<Payment> payments = paymentRepository.getPaymentsWhereStatusNewLimit50();
                 System.out.println(payments);
 
                 if(!payments.isEmpty()) {

@@ -21,9 +21,9 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> getAllByUserId(@Param("id") long id);
 
 
-    @Query(value = "select * from communal_payments.payments where status = 'NEW' for update",
+    @Query(value = "select * from communal_payments.payments where status = 'NEW' limit 50 for update",
             nativeQuery = true)
-    List<Payment> getAllWhereStatusNew();
+    List<Payment> getPaymentsWhereStatusNewLimit50();
 
 
     @Modifying
