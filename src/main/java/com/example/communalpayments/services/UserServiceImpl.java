@@ -4,6 +4,8 @@ import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
+import com.example.communalpayments.web.exceptions.UserEmailExistsException;
+import com.example.communalpayments.web.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -24,17 +26,24 @@ public class UserServiceImpl implements Service<User, Long>, UserService {
     }
 
     @Override
-    public User get(Long userId) {
-        User user = null;
+    public User get(Long userId) throws UserNotFoundException {
         Optional<User> optional = userRepository.findById(userId);
         if (optional.isPresent()) {
-            user = optional.get();
-        }
-        return user;
+            return optional.get();
+        } else throw new UserNotFoundException("Пользователь с заданным id не существует");
     }
 
     @Override
-    public long getUserId(User user) {
-        return user.getId();
+    public void checkUserByEmail(String email) throws UserEmailExistsException {
+        Optional<User> optional = userRepository.getUserByEmail(email);
+        if (optional.isPresent()) {
+            throw new UserEmailExistsException("Пользователь с заданным email уже существует");
+        }
+    }
+
+    @Override
+    public void checkUserById(long id) throws UserNotFoundException {
+        Optional<User> optional = userRepository.findById(id);
+        if (optional.isEmpty()) throw new UserNotFoundException("Пользователь с заданным id не существует");
     }
 }

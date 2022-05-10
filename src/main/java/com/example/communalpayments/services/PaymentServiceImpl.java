@@ -2,30 +2,31 @@ package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;
-import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.services.interfaces.PaymentService;
 import com.example.communalpayments.services.interfaces.Service;
+import com.example.communalpayments.services.interfaces.UserService;
+import com.example.communalpayments.web.exceptions.PaymentNotFoundException;
+import com.example.communalpayments.web.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 @org.springframework.stereotype.Service
 public class PaymentServiceImpl implements Service<Payment, Long>, PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final TemplateServiceImpl templateService;
+    private final UserService userService;
 
     @Autowired
-    public PaymentServiceImpl(PaymentRepository paymentRepository, TemplateServiceImpl templateService) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, UserService userService) {
         this.paymentRepository = paymentRepository;
-        this.templateService = templateService;
+        this.userService = userService;
     }
 
     @Override
-    public List<Payment> getAllPaymentsByUserId(Long userId) {
+    public List<Payment> getAllPaymentsByUserId(Long userId) throws UserNotFoundException {
+        userService.checkUserById(userId);
         return paymentRepository.getAllByUserId(userId);
     }
 
@@ -35,29 +36,10 @@ public class PaymentServiceImpl implements Service<Payment, Long>, PaymentServic
     }
 
     @Override
-    public void saveAll(List<Payment> payments) {
-        paymentRepository.saveAll(payments);
-    }
-
-    @Override
-    public Payment get(Long id) {
-        Payment payment = null;
+    public Payment get(Long id) throws PaymentNotFoundException {
         Optional<Payment> optional = paymentRepository.findById(id);
-        if(optional.isPresent()) {
-            payment = optional.get();
-        }
-        return payment;
-    }
-
-    @Async
-    @Override
-    public CompletableFuture<Payment> createPayment(Payment payment) {
-        long templateId = payment.getTemplate().getId();
-        Template template = templateService.get(templateId);
-        String cardNumber = payment.getCardNumber();
-        double amount = payment.getAmount();
-        Payment newPayment = new Payment(template, cardNumber, amount);
-        save(newPayment);
-        return CompletableFuture.completedFuture(newPayment);
+        if (optional.isPresent()) {
+            return optional.get();
+        } else throw new PaymentNotFoundException("Платежа с заданным id не существует");
     }
 }

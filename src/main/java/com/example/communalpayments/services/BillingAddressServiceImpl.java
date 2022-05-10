@@ -2,9 +2,10 @@ package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.BillingAddressRepository;
 import com.example.communalpayments.entities.BillingAddress;
-import com.example.communalpayments.entities.User;
 import com.example.communalpayments.services.interfaces.BillingAddressService;
 import com.example.communalpayments.services.interfaces.Service;
+import com.example.communalpayments.web.exceptions.AddressNotFoundException;
+import com.example.communalpayments.web.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class BillingAddressServiceImpl implements Service<BillingAddress, Long>,
     }
 
     @Override
-    public List<BillingAddress> getAllAddressByUserId(Long userId) {
+    public List<BillingAddress> getAllAddressByUserId(Long userId) throws UserNotFoundException {
+        userService.checkUserById(userId);
         return billingAddressRepository.getBillingAddressesByUserId(userId);
     }
 
@@ -33,27 +35,16 @@ public class BillingAddressServiceImpl implements Service<BillingAddress, Long>,
     }
 
     @Override
-    public BillingAddress get(Long addressId) {
-        BillingAddress billingAddress = null;
+    public BillingAddress get(Long addressId) throws AddressNotFoundException {
         Optional<BillingAddress> optional = billingAddressRepository.findById(addressId);
         if (optional.isPresent()) {
-            billingAddress = optional.get();
-        }
-        return billingAddress;
+            return optional.get();
+        } else throw new AddressNotFoundException("Платежный адрес с заданным id не существует");
     }
 
     @Override
-    public BillingAddress create(BillingAddress billingAddress) {
-        long userId = billingAddress.getUser().getId();
-        User user = userService.get(userId);
-        billingAddress.setUser(user);
-        save(billingAddress);
-
-        return billingAddress;
-    }
-
-    @Override
-    public long getAddressId(BillingAddress billingAddress) {
-        return billingAddress.getId();
+    public void checkAddressById(long addressId) throws AddressNotFoundException {
+        Optional<BillingAddress> optional = billingAddressRepository.findById(addressId);
+        if (optional.isEmpty()) throw new AddressNotFoundException("Платежный адрес с заданным id не существует");
     }
 }

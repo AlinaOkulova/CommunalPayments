@@ -1,14 +1,12 @@
 package com.example.communalpayments.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -32,7 +30,7 @@ public class BillingAddress {
     private User user;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
-                mappedBy = "address")
+            mappedBy = "address")
     @JsonManagedReference
     private List<Template> templates;
 }

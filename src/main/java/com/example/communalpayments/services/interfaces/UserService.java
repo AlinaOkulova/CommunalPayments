@@ -1,8 +1,12 @@
 package com.example.communalpayments.services.interfaces;
 
-import com.example.communalpayments.entities.User;
+
+import com.example.communalpayments.web.exceptions.UserEmailExistsException;
+import com.example.communalpayments.web.exceptions.UserNotFoundException;
 
 public interface UserService {
 
-    long getUserId(User user);
+    void checkUserByEmail(String email) throws UserEmailExistsException;
+
+    void checkUserById(long id) throws UserNotFoundException;
 }

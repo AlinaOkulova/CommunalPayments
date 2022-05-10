@@ -1,10 +1,11 @@
 package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.TemplateRepository;
-import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.TemplateService;
+import com.example.communalpayments.web.exceptions.AddressNotFoundException;
+import com.example.communalpayments.web.exceptions.TemplateNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public class TemplateServiceImpl implements Service<Template, Long>, TemplateSer
     }
 
     @Override
-    public List<Template> getAllTemplatesByAddressId(Long addressId) {
+    public List<Template> getAllTemplatesByAddressId(Long addressId) throws AddressNotFoundException {
+        billingAddressService.checkAddressById(addressId);
         return templateRepository.getTemplatesByAddressId(addressId);
     }
 
@@ -33,22 +35,10 @@ public class TemplateServiceImpl implements Service<Template, Long>, TemplateSer
     }
 
     @Override
-    public Template get(Long templateId) {
-        Template template = null;
+    public Template get(Long templateId) throws TemplateNotFoundException {
         Optional<Template> optional = templateRepository.findById(templateId);
         if (optional.isPresent()) {
-            template = optional.get();
-        }
-        return template;
-    }
-
-    @Override
-    public Template create(Template template) {
-        long addressId = template.getAddress().getId();
-        BillingAddress billingAddress = billingAddressService.get(addressId);
-        template.setAddress(billingAddress);
-        save(template);
-
-        return template;
+            return optional.get();
+        } else throw new TemplateNotFoundException("Шаблон с заданным id не существует");
     }
 }

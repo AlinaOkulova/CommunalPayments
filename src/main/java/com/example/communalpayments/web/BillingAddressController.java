@@ -1,43 +1,65 @@
 package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.BillingAddress;
-import com.example.communalpayments.entities.User;
 import com.example.communalpayments.services.BillingAddressServiceImpl;
-import com.example.communalpayments.services.UserServiceImpl;
+import com.example.communalpayments.web.dto.BillingAddressDto;
+import com.example.communalpayments.web.dto.UserDto;
+import com.example.communalpayments.web.exceptions.AddressNotFoundException;
+import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.web.utils.BillingAddressMapping;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/api/billing-addresses")
 public class BillingAddressController {
 
     private final BillingAddressServiceImpl billingAddressService;
-    private final UserServiceImpl userService;
+    private final BillingAddressMapping mapping;
 
     @Autowired
-    public BillingAddressController(BillingAddressServiceImpl billingAddressService, UserServiceImpl userService) {
+    public BillingAddressController(BillingAddressServiceImpl billingAddressService, BillingAddressMapping mapping) {
         this.billingAddressService = billingAddressService;
-        this.userService = userService;
+        this.mapping = mapping;
     }
 
     @GetMapping
-    public List<BillingAddress> getAllAddressesByUser(@RequestBody User user) {
-        long userId = userService.getUserId(user);
-        return billingAddressService.getAllAddressByUserId(userId);
+    public ResponseEntity<?> getAllAddressesByUser(@RequestBody UserDto userDto) {
+        try {
+            List<BillingAddress> billingAddresses = billingAddressService.getAllAddressByUserId(userDto.getId());
+            return ResponseEntity.ok(billingAddresses);
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<BillingAddress> createBillingAddress(@RequestBody BillingAddress billingAddress) {
-        BillingAddress billingAddress1 = billingAddressService.create(billingAddress);
-
-        return ResponseEntity.ok(billingAddress1);
+    public ResponseEntity<String> createBillingAddress(@RequestBody BillingAddressDto addressDto) {
+        try {
+            BillingAddress billingAddress = mapping.convertDtoTo(addressDto);
+            billingAddressService.save(billingAddress);
+            return new ResponseEntity<>("id : " + billingAddress.getId(), HttpStatus.CREATED);
+        } catch (UserNotFoundException e) {
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/{id}")
-    public BillingAddress getBillingAddressById(@PathVariable Long id) {
-        return billingAddressService.get(id);
+    public ResponseEntity<?> getBillingAddressById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(billingAddressService.get(id));
+        } catch (AddressNotFoundException e) {
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }
