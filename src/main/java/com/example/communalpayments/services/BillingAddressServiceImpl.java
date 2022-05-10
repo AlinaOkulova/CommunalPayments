@@ -4,8 +4,8 @@ import com.example.communalpayments.dao.BillingAddressRepository;
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.services.interfaces.BillingAddressService;
 import com.example.communalpayments.services.interfaces.Service;
-import com.example.communalpayments.web.exceptions.AddressNotFoundException;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.AddressNotFoundException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

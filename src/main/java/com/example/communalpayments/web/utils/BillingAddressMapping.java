@@ -4,7 +4,7 @@ import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.services.UserServiceImpl;
 import com.example.communalpayments.web.dto.BillingAddressDto;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

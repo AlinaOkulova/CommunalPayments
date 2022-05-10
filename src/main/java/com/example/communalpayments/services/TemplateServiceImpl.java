@@ -4,8 +4,8 @@ import com.example.communalpayments.dao.TemplateRepository;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.TemplateService;
-import com.example.communalpayments.web.exceptions.AddressNotFoundException;
-import com.example.communalpayments.web.exceptions.TemplateNotFoundException;
+import com.example.communalpayments.exceptions.AddressNotFoundException;
+import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

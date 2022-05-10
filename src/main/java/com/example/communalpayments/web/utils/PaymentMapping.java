@@ -4,7 +4,7 @@ import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.services.TemplateServiceImpl;
 import com.example.communalpayments.web.dto.PaymentDto;
-import com.example.communalpayments.web.exceptions.TemplateNotFoundException;
+import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

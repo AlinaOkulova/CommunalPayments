@@ -1,7 +1,7 @@
 package com.example.communalpayments.services.interfaces;
 
 import com.example.communalpayments.entities.Payment;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 
 import java.util.List;
 

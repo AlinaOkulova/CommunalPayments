@@ -5,8 +5,8 @@ import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.services.interfaces.PaymentService;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
-import com.example.communalpayments.web.exceptions.PaymentNotFoundException;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.PaymentNotFoundException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

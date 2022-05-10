@@ -3,7 +3,7 @@ package com.example.communalpayments.web;
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.services.PaymentServiceImpl;
 import com.example.communalpayments.web.dto.HandledPaymentDto;
-import com.example.communalpayments.web.exceptions.PaymentNotFoundException;
+import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.web.utils.HandledPaymentMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

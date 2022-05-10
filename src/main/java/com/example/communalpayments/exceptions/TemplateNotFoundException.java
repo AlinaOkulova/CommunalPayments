@@ -1,4 +1,4 @@
-package com.example.communalpayments.web.exceptions;
+package com.example.communalpayments.exceptions;
 
 public class TemplateNotFoundException extends Exception {
 

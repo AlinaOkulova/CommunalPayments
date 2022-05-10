@@ -4,7 +4,7 @@ import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.services.BillingAddressServiceImpl;
 import com.example.communalpayments.web.dto.TemplateDto;
-import com.example.communalpayments.web.exceptions.AddressNotFoundException;
+import com.example.communalpayments.exceptions.AddressNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

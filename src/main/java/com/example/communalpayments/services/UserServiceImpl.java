@@ -4,8 +4,8 @@ import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
-import com.example.communalpayments.web.exceptions.UserEmailExistsException;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.UserEmailExistsException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;

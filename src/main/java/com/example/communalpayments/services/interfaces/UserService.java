@@ -1,8 +1,8 @@
 package com.example.communalpayments.services.interfaces;
 
 
-import com.example.communalpayments.web.exceptions.UserEmailExistsException;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.UserEmailExistsException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 
 public interface UserService {
 

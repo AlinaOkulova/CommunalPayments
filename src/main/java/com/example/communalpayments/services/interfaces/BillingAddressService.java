@@ -1,8 +1,8 @@
 package com.example.communalpayments.services.interfaces;
 
 import com.example.communalpayments.entities.BillingAddress;
-import com.example.communalpayments.web.exceptions.AddressNotFoundException;
-import com.example.communalpayments.web.exceptions.UserNotFoundException;
+import com.example.communalpayments.exceptions.AddressNotFoundException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 
 import java.util.List;
 

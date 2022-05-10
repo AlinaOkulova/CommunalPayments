@@ -1,7 +1,7 @@
 package com.example.communalpayments.services.interfaces;
 
 import com.example.communalpayments.entities.Template;
-import com.example.communalpayments.web.exceptions.AddressNotFoundException;
+import com.example.communalpayments.exceptions.AddressNotFoundException;
 
 import java.util.List;
 

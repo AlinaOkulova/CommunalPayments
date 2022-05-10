@@ -1,12 +1,11 @@
 package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.Template;
-import com.example.communalpayments.services.BillingAddressServiceImpl;
 import com.example.communalpayments.services.TemplateServiceImpl;
 import com.example.communalpayments.web.dto.BillingAddressDto;
 import com.example.communalpayments.web.dto.TemplateDto;
-import com.example.communalpayments.web.exceptions.AddressNotFoundException;
-import com.example.communalpayments.web.exceptions.TemplateNotFoundException;
+import com.example.communalpayments.exceptions.AddressNotFoundException;
+import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.web.utils.TemplateMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
