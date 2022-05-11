@@ -14,5 +14,4 @@ public class CommunalPaymentsApplication {
     public static void main(String[] args) {
         SpringApplication.run(CommunalPaymentsApplication.class, args);
     }
-
 }

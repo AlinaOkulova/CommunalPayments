@@ -8,7 +8,6 @@ import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
