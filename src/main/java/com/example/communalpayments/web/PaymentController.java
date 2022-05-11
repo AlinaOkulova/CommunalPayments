@@ -6,7 +6,7 @@ import com.example.communalpayments.web.dto.PaymentDto;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.web.utils.PaymentMapping;
+import com.example.communalpayments.web.mappings.PaymentMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

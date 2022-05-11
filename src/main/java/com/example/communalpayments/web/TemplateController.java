@@ -5,7 +5,7 @@ import com.example.communalpayments.services.TemplateServiceImpl;
 import com.example.communalpayments.web.dto.TemplateDto;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
-import com.example.communalpayments.web.utils.TemplateMapping;
+import com.example.communalpayments.web.mappings.TemplateMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

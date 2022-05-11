@@ -1,4 +1,4 @@
-package com.example.communalpayments.web.utils;
+package com.example.communalpayments.web.mappings;
 
 public interface Mapping<D, T> {
 

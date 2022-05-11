@@ -5,7 +5,7 @@ import com.example.communalpayments.services.BillingAddressServiceImpl;
 import com.example.communalpayments.web.dto.BillingAddressDto;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.web.utils.BillingAddressMapping;
+import com.example.communalpayments.web.mappings.BillingAddressMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

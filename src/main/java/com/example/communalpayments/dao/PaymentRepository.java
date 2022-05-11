@@ -17,7 +17,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             inner join communal_payments.templates as t on p.template_id = t.id\s
             inner join communal_payments.billing_addresses as b on t.billing_address_id = b.id\s
             inner join communal_payments.users as d on b.user_id = d.id\s
-            where d.id = :id\s""", nativeQuery = true)
+            where d.id = :id order by status_change_time desc\s""", nativeQuery = true)
     List<Payment> getAllByUserId(@Param("id") long id);
 
 

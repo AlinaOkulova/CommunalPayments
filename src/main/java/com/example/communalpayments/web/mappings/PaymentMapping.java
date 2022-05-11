@@ -1,4 +1,4 @@
-package com.example.communalpayments.web.utils;
+package com.example.communalpayments.web.mappings;
 
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.entities.Template;

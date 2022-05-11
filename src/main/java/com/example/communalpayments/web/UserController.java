@@ -5,7 +5,7 @@ import com.example.communalpayments.services.UserServiceImpl;
 import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.web.utils.UserMapping;
+import com.example.communalpayments.web.mappings.UserMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
