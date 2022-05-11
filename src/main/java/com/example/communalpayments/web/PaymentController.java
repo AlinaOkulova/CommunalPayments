@@ -3,7 +3,6 @@ package com.example.communalpayments.web;
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.services.PaymentServiceImpl;
 import com.example.communalpayments.web.dto.PaymentDto;
-import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
@@ -30,10 +29,10 @@ public class PaymentController {
         this.mapping = mapping;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllPaymentsByUser(@RequestBody UserDto userDto) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getAllPaymentsByUser(@PathVariable long id) {
         try {
-            List<Payment> payments = paymentService.getAllPaymentsByUserId(userDto.getId());
+            List<Payment> payments = paymentService.getAllPaymentsByUserId(id);
             return ResponseEntity.ok(payments);
         } catch (UserNotFoundException e) {
             log.error(e.getMessage(), e);

@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 public class TemplateDto {
 
     @JsonProperty
-    private long id;
-
-    @JsonProperty
     private String name;
 
     @JsonProperty

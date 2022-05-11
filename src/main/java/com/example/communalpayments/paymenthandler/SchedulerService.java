@@ -1,4 +1,4 @@
-package com.example.communalpayments.services;
+package com.example.communalpayments.paymenthandler;
 
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;

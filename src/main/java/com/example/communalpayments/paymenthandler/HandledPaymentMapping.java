@@ -1,9 +1,10 @@
-package com.example.communalpayments.web.utils;
+package com.example.communalpayments.paymenthandler;
 
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.services.PaymentServiceImpl;
-import com.example.communalpayments.web.dto.HandledPaymentDto;
+import com.example.communalpayments.paymenthandler.HandledPaymentDto;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
+import com.example.communalpayments.web.utils.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 public class PaymentDto {
 
     @JsonProperty
-    private long id;
-
-    @JsonProperty
     private long templateId;
 
     @JsonProperty

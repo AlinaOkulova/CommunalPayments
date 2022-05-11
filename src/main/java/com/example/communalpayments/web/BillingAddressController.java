@@ -3,7 +3,6 @@ package com.example.communalpayments.web;
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.services.BillingAddressServiceImpl;
 import com.example.communalpayments.web.dto.BillingAddressDto;
-import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
 import com.example.communalpayments.web.utils.BillingAddressMapping;
@@ -30,10 +29,10 @@ public class BillingAddressController {
         this.mapping = mapping;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllAddressesByUser(@RequestBody UserDto userDto) {
+    @GetMapping("/user/{id}")
+    public ResponseEntity<?> getAllAddressesByUser(@PathVariable long id) {
         try {
-            List<BillingAddress> billingAddresses = billingAddressService.getAllAddressByUserId(userDto.getId());
+            List<BillingAddress> billingAddresses = billingAddressService.getAllAddressByUserId(id);
             return ResponseEntity.ok(billingAddresses);
         } catch (UserNotFoundException e) {
             log.error(e.getMessage(), e);

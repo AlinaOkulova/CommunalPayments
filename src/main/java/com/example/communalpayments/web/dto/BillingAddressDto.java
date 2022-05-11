@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 public class BillingAddressDto {
 
     @JsonProperty
-    private long id;
-
-    @JsonProperty
     private String address;
 
     @JsonProperty

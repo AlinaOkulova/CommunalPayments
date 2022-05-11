@@ -1,4 +1,4 @@
-package com.example.communalpayments.web.dto;
+package com.example.communalpayments.paymenthandler;
 
 import com.example.communalpayments.entities.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;

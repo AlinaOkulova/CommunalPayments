@@ -2,7 +2,6 @@ package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.services.TemplateServiceImpl;
-import com.example.communalpayments.web.dto.BillingAddressDto;
 import com.example.communalpayments.web.dto.TemplateDto;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
@@ -29,10 +28,10 @@ public class TemplateController {
         this.mapping = mapping;
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAllTemplatesByAddress(@RequestBody BillingAddressDto addressDto) {
+    @GetMapping("/billing-address/{id}")
+    public ResponseEntity<?> getAllTemplatesByAddress(@PathVariable long id) {
         try {
-            List<Template> templates = templateService.getAllTemplatesByAddressId(addressDto.getId());
+            List<Template> templates = templateService.getAllTemplatesByAddressId(id);
             return ResponseEntity.ok(templates);
         } catch (AddressNotFoundException e) {
             log.error(e.getMessage(), e);

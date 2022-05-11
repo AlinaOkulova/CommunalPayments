@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 public class UserDto {
 
     @JsonProperty
-    private long id;
-
-    @JsonProperty
     private String lastName;
 
     @JsonProperty

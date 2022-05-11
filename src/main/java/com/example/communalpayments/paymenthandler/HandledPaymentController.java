@@ -1,10 +1,8 @@
-package com.example.communalpayments.web;
+package com.example.communalpayments.paymenthandler;
 
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.services.PaymentServiceImpl;
-import com.example.communalpayments.web.dto.HandledPaymentDto;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
-import com.example.communalpayments.web.utils.HandledPaymentMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +26,7 @@ public class HandledPaymentController {
         this.mapping = mapping;
     }
 
-    @PostMapping("/save")
+    @PostMapping("/saving")
     public ResponseEntity<HttpStatus> savePayment(@RequestBody HandledPaymentDto paymentDto) {
         try {
             Payment payment = mapping.convertDtoTo(paymentDto);
