@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 @Slf4j
@@ -27,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registration(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> registration(@Valid @RequestBody UserDto userDto) {
         try {
             userService.checkUserByEmail(userDto.getEmail());
             User user = userMapping.convertDtoTo(userDto);
