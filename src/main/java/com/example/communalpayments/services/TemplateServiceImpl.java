@@ -6,11 +6,13 @@ import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.TemplateService;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @org.springframework.stereotype.Service
 public class TemplateServiceImpl implements Service<Template, Long>, TemplateService {
 
@@ -32,6 +34,7 @@ public class TemplateServiceImpl implements Service<Template, Long>, TemplateSer
     @Override
     public void save(Template template) {
         templateRepository.save(template);
+        log.info("Сохранил шаблон: " + template);
     }
 
     @Override

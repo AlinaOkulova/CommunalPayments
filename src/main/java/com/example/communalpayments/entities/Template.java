@@ -4,11 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
-@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,4 +32,14 @@ public class Template {
     @JoinColumn(name = "billing_address_id")
     @JsonBackReference
     private BillingAddress address;
+
+    @Override
+    public String toString() {
+        return "Template{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", iban='" + iban + '\'' +
+                ", purposeOfPayment='" + purposeOfPayment + '\'' +
+                '}';
+    }
 }

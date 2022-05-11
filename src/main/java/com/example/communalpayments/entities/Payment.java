@@ -52,7 +52,6 @@ public class Payment {
     public String toString() {
         return "Payment{" +
                 "id=" + id +
-                ", timeStatusChange=" + timeStatusChange +
                 '}';
     }
 }

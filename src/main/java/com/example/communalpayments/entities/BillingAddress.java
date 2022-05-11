@@ -33,4 +33,12 @@ public class BillingAddress {
             mappedBy = "address")
     @JsonManagedReference
     private List<Template> templates;
+
+    @Override
+    public String toString() {
+        return "BillingAddress{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

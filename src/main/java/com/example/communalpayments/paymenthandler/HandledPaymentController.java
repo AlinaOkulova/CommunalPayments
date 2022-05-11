@@ -31,6 +31,7 @@ public class HandledPaymentController {
         try {
             Payment payment = mapping.convertDtoTo(paymentDto);
             paymentService.save(payment);
+            log.info("Обновил оплату id: " + payment.getId() + ", статус: " + payment.getStatus());
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (PaymentNotFoundException e) {
             log.error(e.getMessage(), e);

@@ -40,4 +40,16 @@ public class User {
             mappedBy = "user")
     @JsonManagedReference
     private List<BillingAddress> billingAddresses;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", patronymic='" + patronymic + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
 }

@@ -7,11 +7,13 @@ import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @org.springframework.stereotype.Service
 public class PaymentServiceImpl implements Service<Payment, Long>, PaymentService {
 
@@ -33,6 +35,7 @@ public class PaymentServiceImpl implements Service<Payment, Long>, PaymentServic
     @Override
     public void save(Payment payment) {
         paymentRepository.save(payment);
+        log.info("Сохранил оплату: " + payment);
     }
 
     @Override

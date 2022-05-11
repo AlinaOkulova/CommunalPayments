@@ -6,10 +6,12 @@ import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
+@Slf4j
 @org.springframework.stereotype.Service
 public class UserServiceImpl implements Service<User, Long>, UserService {
 
@@ -23,6 +25,7 @@ public class UserServiceImpl implements Service<User, Long>, UserService {
     @Override
     public void save(User user) {
         userRepository.save(user);
+        log.info("Сохранил пользователя: " + user);
     }
 
     @Override

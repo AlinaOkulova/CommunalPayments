@@ -6,11 +6,13 @@ import com.example.communalpayments.services.interfaces.BillingAddressService;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @org.springframework.stereotype.Service
 public class BillingAddressServiceImpl implements Service<BillingAddress, Long>, BillingAddressService {
 
@@ -32,6 +34,7 @@ public class BillingAddressServiceImpl implements Service<BillingAddress, Long>,
     @Override
     public void save(BillingAddress billingAddress) {
         billingAddressRepository.save(billingAddress);
+        log.info("Сохранил адрес: " + billingAddress);
     }
 
     @Override

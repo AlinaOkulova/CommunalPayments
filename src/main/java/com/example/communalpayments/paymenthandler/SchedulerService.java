@@ -2,6 +2,7 @@ package com.example.communalpayments.paymenthandler;
 
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class SchedulerService {
 
@@ -30,9 +32,9 @@ public class SchedulerService {
             try {
                 URI url = new URI("http://localhost:8081/api/payment-handler");
                 List<Payment> payments = paymentRepository.getPaymentsWhereStatusNewLimit50();
-                System.out.println(payments);
 
                 if(!payments.isEmpty()) {
+                    log.info("Взял в обработку оплаты: " + payments);
                     List<Long> ids = payments.stream().map(Payment::getId).toList();
                     paymentRepository.updateStatusToInProcess(ids);
 
@@ -40,9 +42,11 @@ public class SchedulerService {
                     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                     HttpEntity<List<Payment>> httpEntity = new HttpEntity<>(payments, httpHeaders);
                     restTemplate.exchange(url, HttpMethod.POST, httpEntity, HttpStatus.class);
+                    log.info("Отправил оплаты в сервис Payment handler");
                 }
             } catch (URISyntaxException e) {
-                e.printStackTrace();
+                log.error("Ошибка в URI сервиса Payment handler");
+                log.error(e.getMessage(), e);
             }
     }
 }
