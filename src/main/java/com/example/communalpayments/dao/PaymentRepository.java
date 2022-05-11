@@ -20,12 +20,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             where d.id = :id order by status_change_time desc\s""", nativeQuery = true)
     List<Payment> getAllByUserId(@Param("id") long id);
 
-
     @Query(value = "select * from communal_payments.payments where status = 'NEW' " +
             "order by time_of_creation limit 50 for update",
             nativeQuery = true)
     List<Payment> getPaymentsWhereStatusNewLimit50();
-
 
     @Modifying
     @Transactional
@@ -33,4 +31,9 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             "status_change_time = current_timestamp where id in " +
             "(select id from communal_payments.payments where id in :ids for update)", nativeQuery = true)
     void updateStatusToInProcess(List<Long> ids);
+
+    @Query(value = "select * from communal_payments.payments where template_id = :templateId and " +
+            "payment_amount = :amount and transaction_timestamp()-time_of_creation < interval '00:01:00'",
+            nativeQuery = true)
+    List<Payment> checkDuplicates(long templateId, double amount);
 }

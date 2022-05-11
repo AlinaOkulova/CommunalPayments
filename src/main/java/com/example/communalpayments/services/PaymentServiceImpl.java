@@ -2,6 +2,7 @@ package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;
+import com.example.communalpayments.exceptions.PaymentDuplicateException;
 import com.example.communalpayments.services.interfaces.PaymentService;
 import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.services.interfaces.UserService;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @org.springframework.stereotype.Service
 public class PaymentServiceImpl implements Service<Payment, Long>, PaymentService {
 
@@ -35,7 +35,6 @@ public class PaymentServiceImpl implements Service<Payment, Long>, PaymentServic
     @Override
     public void save(Payment payment) {
         paymentRepository.save(payment);
-        log.info("Сохранил оплату: " + payment);
     }
 
     @Override
@@ -44,5 +43,12 @@ public class PaymentServiceImpl implements Service<Payment, Long>, PaymentServic
         if (optional.isPresent()) {
             return optional.get();
         } else throw new PaymentNotFoundException("Платежа с заданным id не существует");
+    }
+
+    public void checkDuplicates(long templateId, double amount) throws PaymentDuplicateException {
+        List<Payment> payments = paymentRepository.checkDuplicates(templateId, amount);
+
+        if (!payments.isEmpty())
+            throw new PaymentDuplicateException("Такая оплата уже существует. Повторите действие через минуту");
     }
 }

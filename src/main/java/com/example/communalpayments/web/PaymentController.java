@@ -1,6 +1,7 @@
 package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.Payment;
+import com.example.communalpayments.exceptions.PaymentDuplicateException;
 import com.example.communalpayments.services.PaymentServiceImpl;
 import com.example.communalpayments.web.dto.PaymentDto;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
@@ -44,10 +45,12 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<String> createPayment(@Valid @RequestBody PaymentDto paymentDto) {
         try {
+            paymentService.checkDuplicates(paymentDto.getTemplateId(), paymentDto.getAmount());
             Payment payment = mapping.convertDtoTo(paymentDto);
             paymentService.save(payment);
+            log.info("Сохранил оплату: " + payment);
             return new ResponseEntity<>("id : " + payment.getId(), HttpStatus.CREATED);
-        } catch (TemplateNotFoundException e) {
+        } catch (TemplateNotFoundException | PaymentDuplicateException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
