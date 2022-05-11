@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -41,7 +42,7 @@ public class PaymentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createPayment(@RequestBody PaymentDto paymentDto) {
+    public ResponseEntity<String> createPayment(@Valid @RequestBody PaymentDto paymentDto) {
         try {
             Payment payment = mapping.convertDtoTo(paymentDto);
             paymentService.save(payment);

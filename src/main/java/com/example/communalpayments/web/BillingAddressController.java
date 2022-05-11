@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -41,7 +42,7 @@ public class BillingAddressController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createBillingAddress(@RequestBody BillingAddressDto addressDto) {
+    public ResponseEntity<String> createBillingAddress(@Valid @RequestBody BillingAddressDto addressDto) {
         try {
             BillingAddress billingAddress = mapping.convertDtoTo(addressDto);
             billingAddressService.save(billingAddress);
