@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 public class PaymentDto {
 
     @JsonProperty
-    @Min(value = 1, message = "id должен быть больше нуля")
+    @Min(value = 1, message = "Id должен быть больше нуля")
     private long templateId;
 
     @JsonProperty

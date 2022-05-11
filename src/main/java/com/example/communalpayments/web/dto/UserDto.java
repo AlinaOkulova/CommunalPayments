@@ -30,7 +30,7 @@ public class UserDto {
     @JsonProperty
     @NotNull
     @Pattern(regexp = "^[\\w-]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$",
-            message = "email введен неккоректно")
+            message = "Email введен неккоректно")
     private String email;
 
     @JsonProperty
