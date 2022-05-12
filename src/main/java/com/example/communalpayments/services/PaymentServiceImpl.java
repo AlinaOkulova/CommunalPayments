@@ -3,37 +3,48 @@ package com.example.communalpayments.services;
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.exceptions.PaymentDuplicateException;
-import com.example.communalpayments.services.interfaces.PaymentService;
-import com.example.communalpayments.services.interfaces.Service;
-import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
+import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import com.example.communalpayments.services.interfaces.GetService;
+import com.example.communalpayments.services.interfaces.PaymentService;
+import com.example.communalpayments.web.dto.PaymentDto;
+import com.example.communalpayments.web.mappings.PaymentMapping;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@org.springframework.stereotype.Service
-public class PaymentServiceImpl implements Service<Payment, Long>, PaymentService {
+@Slf4j
+@Service
+public class PaymentServiceImpl implements GetService<Payment, Long>, PaymentService {
 
     private final PaymentRepository paymentRepository;
-    private final UserService userService;
+    private final UserServiceImpl userService;
+    private final PaymentMapping mapping;
 
     @Autowired
-    public PaymentServiceImpl(PaymentRepository paymentRepository, UserService userService) {
+    public PaymentServiceImpl(PaymentRepository paymentRepository, UserServiceImpl userService,
+                              PaymentMapping mapping) {
         this.paymentRepository = paymentRepository;
         this.userService = userService;
+        this.mapping = mapping;
+    }
+
+    @Override
+    public Payment createPayment(PaymentDto paymentDto) throws PaymentDuplicateException, TemplateNotFoundException {
+        checkDuplicates(paymentDto.getTemplateId(), paymentDto.getAmount());
+        Payment payment = paymentRepository.save(mapping.convertDtoTo(paymentDto));
+        log.info("Сохранил оплату: " + payment);
+        return payment;
     }
 
     @Override
     public List<Payment> getAllPaymentsByUserId(Long userId) throws UserNotFoundException {
-        userService.checkUserById(userId);
+        userService.get(userId);
         return paymentRepository.getAllByUserId(userId);
-    }
-
-    @Override
-    public void save(Payment payment) {
-        paymentRepository.save(payment);
     }
 
     @Override

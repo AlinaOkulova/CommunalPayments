@@ -1,11 +1,10 @@
 package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.User;
-import com.example.communalpayments.services.UserServiceImpl;
-import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.web.mappings.UserMapping;
+import com.example.communalpayments.services.UserServiceImpl;
+import com.example.communalpayments.web.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,20 +19,16 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserServiceImpl userService;
-    private final UserMapping userMapping;
 
     @Autowired
-    public UserController(UserServiceImpl userService, UserMapping userMapping) {
+    public UserController(UserServiceImpl userService) {
         this.userService = userService;
-        this.userMapping = userMapping;
     }
 
     @PostMapping("/registration")
     public ResponseEntity<String> registration(@Valid @RequestBody UserDto userDto) {
         try {
-            userService.checkUserByEmail(userDto.getEmail());
-            User user = userMapping.convertDtoTo(userDto);
-            userService.save(user);
+            User user = userService.registration(userDto);
             return new ResponseEntity<>("id : " + user.getId(), HttpStatus.CREATED);
         } catch (UserEmailExistsException e) {
             log.error(e.getMessage(), e);

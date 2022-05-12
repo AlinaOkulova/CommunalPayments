@@ -15,5 +15,6 @@ public @interface CheckCardNumber {
     String message() default "Номер карты введен неправильно";
 
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

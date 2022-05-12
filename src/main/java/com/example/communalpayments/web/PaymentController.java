@@ -2,12 +2,11 @@ package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.Payment;
 import com.example.communalpayments.exceptions.PaymentDuplicateException;
-import com.example.communalpayments.services.PaymentServiceImpl;
-import com.example.communalpayments.web.dto.PaymentDto;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.web.mappings.PaymentMapping;
+import com.example.communalpayments.services.PaymentServiceImpl;
+import com.example.communalpayments.web.dto.PaymentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,16 +22,14 @@ import java.util.List;
 public class PaymentController {
 
     private final PaymentServiceImpl paymentService;
-    private final PaymentMapping mapping;
 
     @Autowired
-    public PaymentController(PaymentServiceImpl paymentService, PaymentMapping mapping) {
+    public PaymentController(PaymentServiceImpl paymentService) {
         this.paymentService = paymentService;
-        this.mapping = mapping;
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getAllPaymentsByUser(@PathVariable long id) {
+    public ResponseEntity<?> getAllPaymentsByUserId(@PathVariable long id) {
         try {
             List<Payment> payments = paymentService.getAllPaymentsByUserId(id);
             return ResponseEntity.ok(payments);
@@ -45,10 +42,7 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<String> createPayment(@Valid @RequestBody PaymentDto paymentDto) {
         try {
-            paymentService.checkDuplicates(paymentDto.getTemplateId(), paymentDto.getAmount());
-            Payment payment = mapping.convertDtoTo(paymentDto);
-            paymentService.save(payment);
-            log.info("Сохранил оплату: " + payment);
+            Payment payment = paymentService.createPayment(paymentDto);
             return new ResponseEntity<>("id : " + payment.getId(), HttpStatus.CREATED);
         } catch (TemplateNotFoundException | PaymentDuplicateException e) {
             log.error(e.getMessage(), e);

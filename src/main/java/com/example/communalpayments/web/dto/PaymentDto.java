@@ -21,6 +21,6 @@ public class PaymentDto {
     private String cardNumber;
 
     @JsonProperty
-    @DecimalMin(value = "0.01",  message = "Сумма должна быть больше 0.00")
+    @DecimalMin(value = "0.01", message = "Сумма должна быть больше 0.00")
     private double amount;
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserMapping implements Mapping<UserDto, User>{
+public class UserMapping implements Mapping<UserDto, User> {
 
     @Override
     public User convertDtoTo(UserDto userDto) {

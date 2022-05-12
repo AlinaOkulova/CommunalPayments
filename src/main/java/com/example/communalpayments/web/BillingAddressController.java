@@ -1,11 +1,10 @@
 package com.example.communalpayments.web;
 
 import com.example.communalpayments.entities.BillingAddress;
-import com.example.communalpayments.services.BillingAddressServiceImpl;
-import com.example.communalpayments.web.dto.BillingAddressDto;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.web.mappings.BillingAddressMapping;
+import com.example.communalpayments.services.BillingAddressServiceImpl;
+import com.example.communalpayments.web.dto.BillingAddressDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,16 +21,14 @@ import java.util.List;
 public class BillingAddressController {
 
     private final BillingAddressServiceImpl billingAddressService;
-    private final BillingAddressMapping mapping;
 
     @Autowired
-    public BillingAddressController(BillingAddressServiceImpl billingAddressService, BillingAddressMapping mapping) {
+    public BillingAddressController(BillingAddressServiceImpl billingAddressService) {
         this.billingAddressService = billingAddressService;
-        this.mapping = mapping;
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getAllAddressesByUser(@PathVariable long id) {
+    public ResponseEntity<?> getAllAddressesByUserId(@PathVariable long id) {
         try {
             List<BillingAddress> billingAddresses = billingAddressService.getAllAddressByUserId(id);
             return ResponseEntity.ok(billingAddresses);
@@ -44,8 +41,7 @@ public class BillingAddressController {
     @PostMapping
     public ResponseEntity<String> createBillingAddress(@Valid @RequestBody BillingAddressDto addressDto) {
         try {
-            BillingAddress billingAddress = mapping.convertDtoTo(addressDto);
-            billingAddressService.save(billingAddress);
+            BillingAddress billingAddress = billingAddressService.createBillingAddress(addressDto);
             return new ResponseEntity<>("id : " + billingAddress.getId(), HttpStatus.CREATED);
         } catch (UserNotFoundException e) {
             log.error(e.getMessage(), e);

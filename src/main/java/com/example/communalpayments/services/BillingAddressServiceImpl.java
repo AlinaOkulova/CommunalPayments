@@ -2,39 +2,45 @@ package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.BillingAddressRepository;
 import com.example.communalpayments.entities.BillingAddress;
-import com.example.communalpayments.services.interfaces.BillingAddressService;
-import com.example.communalpayments.services.interfaces.Service;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import com.example.communalpayments.services.interfaces.BillingAddressService;
+import com.example.communalpayments.services.interfaces.GetService;
+import com.example.communalpayments.web.dto.BillingAddressDto;
+import com.example.communalpayments.web.mappings.BillingAddressMapping;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@org.springframework.stereotype.Service
-public class BillingAddressServiceImpl implements Service<BillingAddress, Long>, BillingAddressService {
+@Service
+public class BillingAddressServiceImpl implements GetService<BillingAddress, Long>, BillingAddressService {
 
     private final BillingAddressRepository billingAddressRepository;
     private final UserServiceImpl userService;
+    private final BillingAddressMapping mapping;
 
     @Autowired
-    public BillingAddressServiceImpl(BillingAddressRepository billingAddressRepository, UserServiceImpl userService) {
+    public BillingAddressServiceImpl(BillingAddressRepository billingAddressRepository, UserServiceImpl userService,
+                                     BillingAddressMapping mapping) {
         this.billingAddressRepository = billingAddressRepository;
         this.userService = userService;
+        this.mapping = mapping;
+    }
+
+    @Override
+    public BillingAddress createBillingAddress(BillingAddressDto addressDto) throws UserNotFoundException {
+        BillingAddress billingAddress = mapping.convertDtoTo(addressDto);
+        return billingAddressRepository.save(billingAddress);
     }
 
     @Override
     public List<BillingAddress> getAllAddressByUserId(Long userId) throws UserNotFoundException {
-        userService.checkUserById(userId);
+        userService.get(userId);
         return billingAddressRepository.getBillingAddressesByUserId(userId);
-    }
-
-    @Override
-    public void save(BillingAddress billingAddress) {
-        billingAddressRepository.save(billingAddress);
-        log.info("Сохранил адрес: " + billingAddress);
     }
 
     @Override
@@ -43,11 +49,5 @@ public class BillingAddressServiceImpl implements Service<BillingAddress, Long>,
         if (optional.isPresent()) {
             return optional.get();
         } else throw new AddressNotFoundException("Платежный адрес с заданным id не существует");
-    }
-
-    @Override
-    public void checkAddressById(long addressId) throws AddressNotFoundException {
-        Optional<BillingAddress> optional = billingAddressRepository.findById(addressId);
-        if (optional.isEmpty()) throw new AddressNotFoundException("Платежный адрес с заданным id не существует");
     }
 }

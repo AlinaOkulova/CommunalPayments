@@ -1,9 +1,7 @@
 package com.example.communalpayments.services.interfaces;
 
 
-public interface Service<E, T> {
-
-    void save(E entity);
+public interface GetService<E, T> {
 
     E get(T id) throws Exception;
 }
