@@ -30,9 +30,9 @@ public class UserServiceImpl implements GetService<User, Long>, UserService {
     @Override
     public User registration(UserDto userDto) throws UserEmailExistsException {
         checkUserByEmail(userDto.getEmail());
-        User user = mapping.convertDtoTo(userDto);
+        User user = userRepository.save(mapping.convertDtoTo(userDto));
         log.info("Сохранил пользователя: " + user);
-        return userRepository.save(user);
+        return user;
     }
 
     @Override
