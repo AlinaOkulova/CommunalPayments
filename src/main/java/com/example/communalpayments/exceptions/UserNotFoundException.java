@@ -2,7 +2,7 @@ package com.example.communalpayments.exceptions;
 
 public class UserNotFoundException extends Exception {
 
-    public UserNotFoundException(String message) {
-        super(message);
+    public UserNotFoundException() {
+        super("Пользователь с заданным id не существует");
     }
 }

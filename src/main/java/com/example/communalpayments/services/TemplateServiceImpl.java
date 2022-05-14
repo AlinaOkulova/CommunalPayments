@@ -1,6 +1,8 @@
 package com.example.communalpayments.services;
 
+import com.example.communalpayments.dao.BillingAddressRepository;
 import com.example.communalpayments.dao.TemplateRepository;
+import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
@@ -20,14 +22,14 @@ import java.util.Optional;
 public class TemplateServiceImpl implements GetService<Template, Long>, TemplateService {
 
     private final TemplateRepository templateRepository;
-    private final BillingAddressServiceImpl billingAddressService;
+    private final BillingAddressRepository billingAddressRepository;
     private final TemplateMapping mapping;
 
     @Autowired
-    public TemplateServiceImpl(TemplateRepository templateRepository, BillingAddressServiceImpl billingAddressService,
+    public TemplateServiceImpl(TemplateRepository templateRepository, BillingAddressRepository billingAddressRepository,
                                TemplateMapping mapping) {
         this.templateRepository = templateRepository;
-        this.billingAddressService = billingAddressService;
+        this.billingAddressRepository = billingAddressRepository;
         this.mapping = mapping;
     }
 
@@ -40,7 +42,8 @@ public class TemplateServiceImpl implements GetService<Template, Long>, Template
 
     @Override
     public List<Template> getAllTemplatesByAddressId(Long addressId) throws AddressNotFoundException {
-        billingAddressService.get(addressId);
+        Optional<BillingAddress> optional = billingAddressRepository.findById(addressId);
+        if (optional.isEmpty()) throw new AddressNotFoundException();
         return templateRepository.getTemplatesByAddressId(addressId);
     }
 
@@ -49,6 +52,6 @@ public class TemplateServiceImpl implements GetService<Template, Long>, Template
         Optional<Template> optional = templateRepository.findById(templateId);
         if (optional.isPresent()) {
             return optional.get();
-        } else throw new TemplateNotFoundException("Шаблон с заданным id не существует");
+        } else throw new TemplateNotFoundException();
     }
 }

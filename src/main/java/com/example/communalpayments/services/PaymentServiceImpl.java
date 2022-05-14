@@ -52,13 +52,13 @@ public class PaymentServiceImpl implements GetService<Payment, Long>, PaymentSer
         Optional<Payment> optional = paymentRepository.findById(id);
         if (optional.isPresent()) {
             return optional.get();
-        } else throw new PaymentNotFoundException("Платежа с заданным id не существует");
+        } else throw new PaymentNotFoundException();
     }
 
     public void checkDuplicates(long templateId, double amount) throws PaymentDuplicateException {
         List<Payment> payments = paymentRepository.checkDuplicates(templateId, amount);
 
         if (!payments.isEmpty())
-            throw new PaymentDuplicateException("Такая оплата уже существует. Повторите действие через минуту");
+            throw new PaymentDuplicateException();
     }
 }

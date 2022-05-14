@@ -29,7 +29,10 @@ public class UserServiceImpl implements GetService<User, Long>, UserService {
 
     @Override
     public User registration(UserDto userDto) throws UserEmailExistsException {
-        checkUserByEmail(userDto.getEmail());
+        Optional<User> optional = userRepository.getUserByEmail(userDto.getEmail());
+        if (optional.isPresent()) {
+            throw new UserEmailExistsException();
+        }
         User user = userRepository.save(mapping.convertDtoTo(userDto));
         log.info("Сохранил пользователя: " + user);
         return user;
@@ -40,13 +43,6 @@ public class UserServiceImpl implements GetService<User, Long>, UserService {
         Optional<User> optional = userRepository.findById(userId);
         if (optional.isPresent()) {
             return optional.get();
-        } else throw new UserNotFoundException("Пользователь с заданным id не существует");
-    }
-
-    private void checkUserByEmail(String email) throws UserEmailExistsException {
-        Optional<User> optional = userRepository.getUserByEmail(email);
-        if (optional.isPresent()) {
-            throw new UserEmailExistsException("Пользователь с заданным email уже существует");
-        }
+        } else throw new UserNotFoundException();
     }
 }

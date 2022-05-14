@@ -3,18 +3,13 @@ package com.example.communalpayments.services;
 import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
+import com.example.communalpayments.exceptions.UserNotFoundException;
 import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.web.mappings.UserMapping;
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.eq;
@@ -28,67 +23,51 @@ class UserServiceImplTest {
 
     private UserServiceImpl userService;
 
+    private UserDto userDto;
+    private User unsavedUser;
+    private User savedUser;
+
     @BeforeEach
     void setUp() {
         userRepository = Mockito.mock(UserRepository.class);
         userMapping = Mockito.mock(UserMapping.class);
         userService = new UserServiceImpl(userRepository, userMapping);
-    }
 
-    @AfterEach
-    void tearDown() {
-    }
+        userDto = new UserDto("Ivanov", "Ivan",
+                "Ivanovych", "ivan@gmail.com", "0961254856");
 
-    @SneakyThrows
-    @Test()
-    void registrationTest() {
-
-        doReturn(User.builder()
+        unsavedUser = User.builder()
+                .id(0)
                 .lastName("Ivanov")
                 .firstName("Ivan")
                 .patronymic("Ivanovych")
                 .email("ivan@gmail.com")
                 .phoneNumber("0961254856")
-                .build())
-                .when(userMapping)
-                .convertDtoTo(eq(new UserDto("Ivanov", "Ivan",
-                        "Ivanovych", "ivan@gmail.com", "0961254856")));
+                .build();
 
-        doReturn(User.builder()
-                .id(4L)
+        savedUser = User.builder()
+                .id(2L)
                 .lastName("Ivanov")
                 .firstName("Ivan")
                 .patronymic("Ivanovych")
                 .email("ivan@gmail.com")
                 .phoneNumber("0961254856")
-                .build())
-                .when(userRepository)
-                .save(eq(User.builder()
-                        .id(0L)
-                        .lastName("Ivanov")
-                        .firstName("Ivan")
-                        .patronymic("Ivanovych")
-                        .email("ivan@gmail.com")
-                        .phoneNumber("0961254856")
-                        .build()));
+                .build();
+    }
 
-        User user = userService.registration(new UserDto("Ivanov", "Ivan",
-                "Ivanovych", "ivan@gmail.com", "0961254856"));
+    @Test
+    void registrationTest() throws UserEmailExistsException {
 
-        verify(userMapping, times(1))
-                .convertDtoTo(eq(new UserDto("Ivanov", "Ivan",
-                        "Ivanovych", "ivan@gmail.com", "0961254856")));
+        doReturn(unsavedUser).when(userMapping).convertDtoTo(eq(userDto));
+        doReturn(savedUser).when(userRepository).save(eq(unsavedUser));
 
-        verify(userRepository, times(1))
-                .save(eq(User.builder()
-                        .lastName("Ivanov")
-                        .firstName("Ivan")
-                        .patronymic("Ivanovych")
-                        .email("ivan@gmail.com")
-                        .phoneNumber("0961254856")
-                        .build()));
+        User user = userService.registration(userDto);
 
-        assertEquals(4L, user.getId());
+        verify(userMapping, times(1)).convertDtoTo(eq(userDto));
+
+        verify(userRepository, times(1)).save(eq(unsavedUser));
+
+        assertEquals(2L, user.getId());
         assertEquals("Ivanov", user.getLastName());
         assertEquals("Ivan", user.getFirstName());
         assertEquals("Ivanovych", user.getPatronymic());
@@ -96,13 +75,48 @@ class UserServiceImplTest {
         assertEquals("0961254856", user.getPhoneNumber());
     }
 
+    @Test
+    void registrationThrowsExTest() {
 
+        when(userRepository.getUserByEmail(eq("ivan@gmail.com"))).thenReturn(Optional.of(savedUser));
 
-    private static List<User> getUsers() {
-        List<User> users = new ArrayList<>();
-        users.add(User.builder().id(1).firstName("Alina").email("alina@gmail.com").build());
-        users.add(User.builder().id(2).firstName("Roman").email("roman@gmail.com").build());
-        users.add(User.builder().id(3).firstName("Taras").email("taras@gmail.com").build());
-        return users;
+        UserEmailExistsException exception = assertThrows(UserEmailExistsException.class,
+                () -> userService.registration(userDto));
+
+        verify(userRepository, times(1)).getUserByEmail(eq("ivan@gmail.com"));
+        verify(userMapping, times(0)).convertDtoTo(any());
+        verify(userRepository, times(0)).save(any());
+
+        assertEquals("Пользователь с заданным email уже существует", exception.getMessage());
+    }
+
+    @Test
+    void getTest() throws UserNotFoundException {
+
+        when(userRepository.findById(eq(2L)))
+                .thenReturn(Optional.of(savedUser));
+
+        User user = userService.get(2L);
+
+        verify(userRepository, times(1)).findById(eq(2L));
+
+        assertEquals(2, user.getId());
+        assertEquals("Ivanov", user.getLastName());
+        assertEquals("Ivan", user.getFirstName());
+        assertEquals("Ivanovych", user.getPatronymic());
+        assertEquals("ivan@gmail.com", user.getEmail());
+        assertEquals("0961254856", user.getPhoneNumber());
+    }
+
+    @Test
+    void getThrowsExTest() {
+
+        when(userRepository.findById(3L)).thenReturn(Optional.empty());
+
+        UserNotFoundException exception = assertThrows(UserNotFoundException.class, () -> userService.get(3L));
+
+        verify(userRepository, times(1)).findById(eq(3L));
+
+        assertEquals("Пользователь с заданным id не существует", exception.getMessage());
     }
 }

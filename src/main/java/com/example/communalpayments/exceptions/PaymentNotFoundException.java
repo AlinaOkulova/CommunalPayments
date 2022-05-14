@@ -2,7 +2,7 @@ package com.example.communalpayments.exceptions;
 
 public class PaymentNotFoundException extends Exception {
 
-    public PaymentNotFoundException(String message) {
-        super(message);
+    public PaymentNotFoundException() {
+        super("Платежа с заданным id не существует");
     }
 }

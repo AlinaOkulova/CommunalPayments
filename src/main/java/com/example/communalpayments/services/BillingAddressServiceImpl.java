@@ -1,7 +1,9 @@
 package com.example.communalpayments.services;
 
 import com.example.communalpayments.dao.BillingAddressRepository;
+import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.BillingAddress;
+import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
 import com.example.communalpayments.services.interfaces.BillingAddressService;
@@ -20,26 +22,28 @@ import java.util.Optional;
 public class BillingAddressServiceImpl implements GetService<BillingAddress, Long>, BillingAddressService {
 
     private final BillingAddressRepository billingAddressRepository;
-    private final UserServiceImpl userService;
+    private final UserRepository userRepository;
     private final BillingAddressMapping mapping;
 
     @Autowired
-    public BillingAddressServiceImpl(BillingAddressRepository billingAddressRepository, UserServiceImpl userService,
+    public BillingAddressServiceImpl(BillingAddressRepository billingAddressRepository, UserRepository userRepository,
                                      BillingAddressMapping mapping) {
         this.billingAddressRepository = billingAddressRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.mapping = mapping;
     }
 
     @Override
     public BillingAddress createBillingAddress(BillingAddressDto addressDto) throws UserNotFoundException {
-        BillingAddress billingAddress = mapping.convertDtoTo(addressDto);
-        return billingAddressRepository.save(billingAddress);
+        BillingAddress billingAddress = billingAddressRepository.save(mapping.convertDtoTo(addressDto));
+        log.info("Сохранил адрес: " + billingAddress);
+        return billingAddress;
     }
 
     @Override
     public List<BillingAddress> getAllAddressByUserId(Long userId) throws UserNotFoundException {
-        userService.get(userId);
+        Optional<User> optional = userRepository.findById(userId);
+        if (optional.isEmpty()) throw new UserNotFoundException();
         return billingAddressRepository.getBillingAddressesByUserId(userId);
     }
 
@@ -48,6 +52,6 @@ public class BillingAddressServiceImpl implements GetService<BillingAddress, Lon
         Optional<BillingAddress> optional = billingAddressRepository.findById(addressId);
         if (optional.isPresent()) {
             return optional.get();
-        } else throw new AddressNotFoundException("Платежный адрес с заданным id не существует");
+        } else throw new AddressNotFoundException();
     }
 }
