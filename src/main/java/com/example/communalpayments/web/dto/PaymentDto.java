@@ -2,13 +2,17 @@ package com.example.communalpayments.web.dto;
 
 import com.example.communalpayments.web.validation.CheckCardNumber;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 @Component
 public class PaymentDto {
 
