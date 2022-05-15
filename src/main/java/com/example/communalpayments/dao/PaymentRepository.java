@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
@@ -35,5 +36,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query(value = "select * from communal_payments.payments where template_id = :templateId and " +
             "payment_amount = :amount and transaction_timestamp()-time_of_creation < interval '00:01:00'",
             nativeQuery = true)
-    List<Payment> checkDuplicates(long templateId, double amount);
+    Optional<Payment> checkDuplicates(long templateId, double amount);
 }

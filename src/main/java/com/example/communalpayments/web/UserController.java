@@ -3,7 +3,7 @@ package com.example.communalpayments.web;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.services.UserServiceImpl;
+import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.web.dto.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import javax.validation.Valid;
 @Slf4j
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserServiceImpl userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

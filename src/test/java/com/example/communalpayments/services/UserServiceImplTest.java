@@ -4,6 +4,7 @@ import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.web.mappings.UserMapping;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,7 @@ class UserServiceImplTest {
     private UserRepository userRepository;
     private UserMapping userMapping;
 
-    private UserServiceImpl userService;
+    private UserService userService;
 
     private UserDto userDto;
     private User unsavedUser;
@@ -58,12 +59,12 @@ class UserServiceImplTest {
     @Test
     void registrationTest() throws UserEmailExistsException {
 
-        doReturn(unsavedUser).when(userMapping).convertDtoTo(eq(userDto));
+        doReturn(unsavedUser).when(userMapping).convertDto(eq(userDto));
         doReturn(savedUser).when(userRepository).save(eq(unsavedUser));
 
         User user = userService.registration(userDto);
 
-        verify(userMapping, times(1)).convertDtoTo(eq(userDto));
+        verify(userMapping, times(1)).convertDto(eq(userDto));
 
         verify(userRepository, times(1)).save(eq(unsavedUser));
 
@@ -84,7 +85,7 @@ class UserServiceImplTest {
                 () -> userService.registration(userDto));
 
         verify(userRepository, times(1)).getUserByEmail(eq("ivan@gmail.com"));
-        verify(userMapping, times(0)).convertDtoTo(any());
+        verify(userMapping, times(0)).convertDto(any());
         verify(userRepository, times(0)).save(any());
 
         assertEquals("Пользователь с заданным email уже существует", exception.getMessage());

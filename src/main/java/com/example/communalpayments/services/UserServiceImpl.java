@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements GetService<User, Long>, UserService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapping mapping;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements GetService<User, Long>, UserService {
         if (optional.isPresent()) {
             throw new UserEmailExistsException();
         }
-        User user = userRepository.save(mapping.convertDtoTo(userDto));
+        User user = userRepository.save(mapping.convertDto(userDto));
         log.info("Сохранил пользователя: " + user);
         return user;
     }

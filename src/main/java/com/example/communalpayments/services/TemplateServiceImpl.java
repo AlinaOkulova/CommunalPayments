@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class TemplateServiceImpl implements GetService<Template, Long>, TemplateService {
+public class TemplateServiceImpl implements TemplateService {
 
     private final TemplateRepository templateRepository;
     private final BillingAddressRepository billingAddressRepository;
@@ -35,7 +35,7 @@ public class TemplateServiceImpl implements GetService<Template, Long>, Template
 
     @Override
     public Template createTemplate(TemplateDto templateDto) throws AddressNotFoundException {
-        Template template = templateRepository.save(mapping.convertDtoTo(templateDto));
+        Template template = templateRepository.save(mapping.convertDto(templateDto));
         log.info("Сохранил шаблон: " + template);
         return template;
     }

@@ -6,6 +6,7 @@ import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
+import com.example.communalpayments.services.interfaces.BillingAddressService;
 import com.example.communalpayments.web.dto.BillingAddressDto;
 import com.example.communalpayments.web.mappings.BillingAddressMapping;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,8 +16,6 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -28,7 +27,7 @@ class BillingAddressServiceImplTest {
     private UserRepository userRepository;
     private BillingAddressMapping mapping;
 
-    private BillingAddressServiceImpl billingAddressService;
+    private BillingAddressService billingAddressService;
 
     private BillingAddressDto addressDto;
     private User user;
@@ -72,12 +71,12 @@ class BillingAddressServiceImplTest {
     @Test
     void createBillingAddressTest() throws UserNotFoundException {
 
-        when(mapping.convertDtoTo(eq(addressDto))).thenReturn(unsavedAddress);
+        when(mapping.convertDto(eq(addressDto))).thenReturn(unsavedAddress);
         when(addressRepository.save(eq(unsavedAddress))).thenReturn(savedAddress);
 
         BillingAddress address = billingAddressService.createBillingAddress(addressDto);
 
-        verify(mapping, times(1)).convertDtoTo(eq(addressDto));
+        verify(mapping, times(1)).convertDto(eq(addressDto));
         verify(addressRepository, times(1)).save(eq(unsavedAddress));
 
         assertEquals(3, address.getId());
@@ -87,13 +86,13 @@ class BillingAddressServiceImplTest {
     @Test
     void createBillingAddressThrowsExTest() throws UserNotFoundException {
 
-        when(mapping.convertDtoTo(eq(addressDto)))
+        when(mapping.convertDto(eq(addressDto)))
                 .thenThrow(new UserNotFoundException());
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
                 () -> billingAddressService.createBillingAddress(addressDto));
 
-        verify(mapping, times(1)).convertDtoTo(eq(addressDto));
+        verify(mapping, times(1)).convertDto(eq(addressDto));
         verify(addressRepository, times(0)).save(any());
 
         assertEquals("Пользователь с заданным id не существует", exception.getMessage());

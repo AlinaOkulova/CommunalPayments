@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class BillingAddressServiceImpl implements GetService<BillingAddress, Long>, BillingAddressService {
+public class BillingAddressServiceImpl implements BillingAddressService {
 
     private final BillingAddressRepository billingAddressRepository;
     private final UserRepository userRepository;
@@ -35,7 +35,7 @@ public class BillingAddressServiceImpl implements GetService<BillingAddress, Lon
 
     @Override
     public BillingAddress createBillingAddress(BillingAddressDto addressDto) throws UserNotFoundException {
-        BillingAddress billingAddress = billingAddressRepository.save(mapping.convertDtoTo(addressDto));
+        BillingAddress billingAddress = billingAddressRepository.save(mapping.convertDto(addressDto));
         log.info("Сохранил адрес: " + billingAddress);
         return billingAddress;
     }

@@ -22,7 +22,7 @@ public class HandledPaymentServiceImpl implements HandledPaymentService {
 
     @Override
     public void save(HandledPaymentDto paymentDto) throws PaymentNotFoundException {
-        Payment payment = repository.save(mapping.convertDtoTo(paymentDto));
+        Payment payment = repository.save(mapping.convertDto(paymentDto));
         log.info("Обновил оплату id: " + payment.getId() + ", статус: " + payment.getStatus());
     }
 }

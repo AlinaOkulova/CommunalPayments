@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/handled-payments")
 public class HandledPaymentController {
 
-    private final HandledPaymentServiceImpl handledPaymentService;
+    private final HandledPaymentService handledPaymentService;
 
     @Autowired
-    public HandledPaymentController(HandledPaymentServiceImpl handledPaymentService) {
+    public HandledPaymentController(HandledPaymentService handledPaymentService) {
         this.handledPaymentService = handledPaymentService;
     }
 

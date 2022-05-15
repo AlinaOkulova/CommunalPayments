@@ -5,7 +5,7 @@ import com.example.communalpayments.exceptions.PaymentDuplicateException;
 import com.example.communalpayments.exceptions.PaymentNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.services.PaymentServiceImpl;
+import com.example.communalpayments.services.interfaces.PaymentService;
 import com.example.communalpayments.web.dto.PaymentDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,10 @@ import java.util.List;
 @RequestMapping("/api/payments")
 public class PaymentController {
 
-    private final PaymentServiceImpl paymentService;
+    private final PaymentService paymentService;
 
     @Autowired
-    public PaymentController(PaymentServiceImpl paymentService) {
+    public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 

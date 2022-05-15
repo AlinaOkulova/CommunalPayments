@@ -3,7 +3,7 @@ package com.example.communalpayments.web;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
-import com.example.communalpayments.services.TemplateServiceImpl;
+import com.example.communalpayments.services.interfaces.TemplateService;
 import com.example.communalpayments.web.dto.TemplateDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/api/templates")
 public class TemplateController {
 
-    private final TemplateServiceImpl templateService;
+    private final TemplateService templateService;
 
     @Autowired
-    public TemplateController(TemplateServiceImpl templateService) {
+    public TemplateController(TemplateService templateService) {
         this.templateService = templateService;
     }
 

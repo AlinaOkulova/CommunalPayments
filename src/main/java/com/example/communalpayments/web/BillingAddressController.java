@@ -3,7 +3,7 @@ package com.example.communalpayments.web;
 import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.services.BillingAddressServiceImpl;
+import com.example.communalpayments.services.interfaces.BillingAddressService;
 import com.example.communalpayments.web.dto.BillingAddressDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ import java.util.List;
 @RequestMapping("/api/billing-addresses")
 public class BillingAddressController {
 
-    private final BillingAddressServiceImpl billingAddressService;
+    private final BillingAddressService billingAddressService;
 
     @Autowired
-    public BillingAddressController(BillingAddressServiceImpl billingAddressService) {
+    public BillingAddressController(BillingAddressService billingAddressService) {
         this.billingAddressService = billingAddressService;
     }
 

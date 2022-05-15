@@ -6,6 +6,7 @@ import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
+import com.example.communalpayments.services.interfaces.TemplateService;
 import com.example.communalpayments.web.dto.TemplateDto;
 import com.example.communalpayments.web.mappings.TemplateMapping;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +27,7 @@ class TemplateServiceImplTest {
     private BillingAddressRepository billingAddressRepository;
     private TemplateMapping mapping;
 
-    private TemplateServiceImpl templateService;
+    private TemplateService templateService;
 
     private TemplateDto templateDto;
     private BillingAddress billingAddress;
@@ -71,12 +72,12 @@ class TemplateServiceImplTest {
     @Test
     void createTemplateTest() throws AddressNotFoundException {
 
-        when(mapping.convertDtoTo(eq(templateDto))).thenReturn(unsavedTemplate);
+        when(mapping.convertDto(eq(templateDto))).thenReturn(unsavedTemplate);
         when(templateRepository.save(eq(unsavedTemplate))).thenReturn(savedTemplate);
 
         Template template = templateService.createTemplate(templateDto);
 
-        verify(mapping, times(1)).convertDtoTo(eq(templateDto));
+        verify(mapping, times(1)).convertDto(eq(templateDto));
         verify(templateRepository, times(1)).save(eq(unsavedTemplate));
 
         assertEquals(5L, template.getId());
@@ -88,12 +89,12 @@ class TemplateServiceImplTest {
     @Test
     void createTemplateTrowsExTest() throws AddressNotFoundException {
 
-        when(mapping.convertDtoTo(eq(templateDto))).thenThrow(new AddressNotFoundException());
+        when(mapping.convertDto(eq(templateDto))).thenThrow(new AddressNotFoundException());
 
         AddressNotFoundException exception = assertThrows(AddressNotFoundException.class,
                 () -> templateService.createTemplate(templateDto));
 
-        verify(mapping, times(1)).convertDtoTo(eq(templateDto));
+        verify(mapping, times(1)).convertDto(eq(templateDto));
         verify(templateRepository, times(0)).save(any());
 
         assertEquals("Платежный адрес с заданным id не существует", exception.getMessage());

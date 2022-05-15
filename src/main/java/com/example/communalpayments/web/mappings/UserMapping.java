@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserMapping implements Mapping<UserDto, User> {
 
     @Override
-    public User convertDtoTo(UserDto userDto) {
+    public User convertDto(UserDto userDto) {
         User user = new User();
         user.setLastName(userDto.getLastName());
         user.setFirstName(userDto.getFirstName());

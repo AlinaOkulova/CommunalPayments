@@ -20,7 +20,7 @@ public class HandledPaymentMapping implements Mapping<HandledPaymentDto, Payment
     }
 
     @Override
-    public Payment convertDtoTo(HandledPaymentDto paymentDto) throws PaymentNotFoundException {
+    public Payment convertDto(HandledPaymentDto paymentDto) throws PaymentNotFoundException {
         Payment payment = paymentService.get(paymentDto.getId());
         payment.setStatus(paymentDto.getStatus());
         payment.setTimeStatusChange(LocalDateTime.now());
