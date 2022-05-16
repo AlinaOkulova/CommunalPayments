@@ -4,7 +4,6 @@ import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.UserEmailExistsException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
-import com.example.communalpayments.services.interfaces.GetService;
 import com.example.communalpayments.services.interfaces.UserService;
 import com.example.communalpayments.web.dto.UserDto;
 import com.example.communalpayments.web.mappings.UserMapping;
@@ -43,6 +42,18 @@ public class UserServiceImpl implements UserService {
         Optional<User> optional = userRepository.findById(userId);
         if (optional.isPresent()) {
             return optional.get();
+        } else throw new UserNotFoundException();
+    }
+
+    @Override
+    public User updateUser(User user) throws UserNotFoundException, UserEmailExistsException {
+        if(userRepository.existsById(user.getId())) {
+            Optional<User> optional = userRepository.getUserByEmail(user.getEmail());
+            if (optional.isPresent()) {
+                if (optional.get().getId() == user.getId()) {
+                    return userRepository.save(user);
+                } else throw new UserEmailExistsException();
+            } else return userRepository.save(user);
         } else throw new UserNotFoundException();
     }
 }

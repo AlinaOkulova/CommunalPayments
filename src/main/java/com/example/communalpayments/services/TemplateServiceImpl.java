@@ -6,7 +6,6 @@ import com.example.communalpayments.entities.BillingAddress;
 import com.example.communalpayments.entities.Template;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.TemplateNotFoundException;
-import com.example.communalpayments.services.interfaces.GetService;
 import com.example.communalpayments.services.interfaces.TemplateService;
 import com.example.communalpayments.web.dto.TemplateDto;
 import com.example.communalpayments.web.mappings.TemplateMapping;

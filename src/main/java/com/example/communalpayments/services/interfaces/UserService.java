@@ -11,4 +11,6 @@ public interface UserService extends GetService<User, Long> {
     User get(Long id) throws UserNotFoundException;
 
     User registration(UserDto userDto) throws UserEmailExistsException;
+
+    User updateUser(User user) throws UserNotFoundException, UserEmailExistsException;
 }

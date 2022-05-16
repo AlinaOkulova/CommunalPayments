@@ -2,15 +2,16 @@ package com.example.communalpayments.paymenthandler;
 
 import com.example.communalpayments.entities.PaymentStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Component
 public class HandledPaymentDto {
 

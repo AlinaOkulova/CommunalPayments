@@ -30,7 +30,6 @@ public class SchedulerRestService {
     @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
     public void handleNewPayments() {
         try {
-            URI url = new URI("http://localhost:8081/api/payment-handler");
             List<Payment> payments = paymentRepository.getPaymentsWhereStatusNewLimit50();
 
             if (!payments.isEmpty()) {
@@ -38,6 +37,7 @@ public class SchedulerRestService {
                 List<Long> ids = payments.stream().map(Payment::getId).toList();
                 paymentRepository.updateStatusToInProcess(ids);
 
+                URI url = new URI("http://localhost:8081/api/payment-handler");
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                 HttpEntity<List<Payment>> httpEntity = new HttpEntity<>(payments, httpHeaders);

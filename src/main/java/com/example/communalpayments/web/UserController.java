@@ -29,7 +29,7 @@ public class UserController {
     public ResponseEntity<String> registration(@Valid @RequestBody UserDto userDto) {
         try {
             User user = userService.registration(userDto);
-            return new ResponseEntity<>("id : " + user.getId(), HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"id\" : " + user.getId() + "}", HttpStatus.CREATED);
         } catch (UserEmailExistsException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -42,6 +42,16 @@ public class UserController {
             User user = userService.get(id);
             return ResponseEntity.ok(user);
         } catch (UserNotFoundException e) {
+            log.error(e.getMessage(), e);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        try {
+            return ResponseEntity.ok(userService.updateUser(user));
+        } catch (UserEmailExistsException | UserNotFoundException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

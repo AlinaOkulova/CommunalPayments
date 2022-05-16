@@ -7,7 +7,6 @@ import com.example.communalpayments.entities.User;
 import com.example.communalpayments.exceptions.AddressNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
 import com.example.communalpayments.services.interfaces.BillingAddressService;
-import com.example.communalpayments.services.interfaces.GetService;
 import com.example.communalpayments.web.dto.BillingAddressDto;
 import com.example.communalpayments.web.mappings.BillingAddressMapping;
 import lombok.extern.slf4j.Slf4j;
