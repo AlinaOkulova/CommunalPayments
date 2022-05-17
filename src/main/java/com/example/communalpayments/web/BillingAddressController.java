@@ -42,7 +42,7 @@ public class BillingAddressController {
     public ResponseEntity<String> createBillingAddress(@Valid @RequestBody BillingAddressDto addressDto) {
         try {
             BillingAddress billingAddress = billingAddressService.createBillingAddress(addressDto);
-            return new ResponseEntity<>("id : " + billingAddress.getId(), HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"id\" : " + billingAddress.getId() + "}", HttpStatus.CREATED);
         } catch (UserNotFoundException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

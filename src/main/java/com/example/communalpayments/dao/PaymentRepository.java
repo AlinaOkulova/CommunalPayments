@@ -37,4 +37,9 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             "payment_amount = :amount and transaction_timestamp()-time_of_creation < interval '00:01:00'",
             nativeQuery = true)
     Optional<Payment> checkDuplicates(long templateId, double amount);
+
+    @Modifying
+    @Transactional
+    @Query(value = "truncate table communal_payments.payments restart identity cascade", nativeQuery = true)
+    void truncateForTest();
 }

@@ -43,7 +43,7 @@ public class PaymentController {
     public ResponseEntity<String> createPayment(@Valid @RequestBody PaymentDto paymentDto) {
         try {
             Payment payment = paymentService.createPayment(paymentDto);
-            return new ResponseEntity<>("id : " + payment.getId(), HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"id\" : " + payment.getId() + "}", HttpStatus.CREATED);
         } catch (TemplateNotFoundException | PaymentDuplicateException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

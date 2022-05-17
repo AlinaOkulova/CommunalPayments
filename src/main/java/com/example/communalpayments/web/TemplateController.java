@@ -41,7 +41,7 @@ public class TemplateController {
     public ResponseEntity<String> createTemplate(@Valid @RequestBody TemplateDto templateDto) {
         try {
             Template template = templateService.createTemplate(templateDto);
-            return new ResponseEntity<>("id : " + template.getId(), HttpStatus.CREATED);
+            return new ResponseEntity<>("{\"id\" : " + template.getId() + "}", HttpStatus.CREATED);
         } catch (AddressNotFoundException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

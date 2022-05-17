@@ -39,7 +39,7 @@ public class User {
     private String phoneNumber;
 
     @ToString.Exclude
-    @OneToMany(cascade = CascadeType.ALL,
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
             mappedBy = "user")
     @JsonManagedReference
     private List<BillingAddress> billingAddresses;

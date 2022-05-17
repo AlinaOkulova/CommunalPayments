@@ -26,12 +26,14 @@ import org.testcontainers.utility.DockerImageName;
 public abstract class BaseFunctionalTest {
 
     private static final DockerImageName POSTGRES_IMAGE_NAME = DockerImageName.parse("postgres");
+    public static final String POSTGRES_TAG = "latest";
     private static final PostgreSQLContainer<CustomPostgreSQLContainer> POSTGRES_CONTAINER;
 
     static {
-        POSTGRES_CONTAINER = new CustomPostgreSQLContainer(POSTGRES_IMAGE_NAME)
-                .withUsername("postgres")
-                .withPassword("123456");
+        POSTGRES_CONTAINER = new CustomPostgreSQLContainer(POSTGRES_IMAGE_NAME.withTag(POSTGRES_TAG))
+                .withDatabaseName("test")
+                .withUsername("test")
+                .withPassword("password");
         POSTGRES_CONTAINER.start();
     }
 

@@ -30,7 +30,7 @@ public class BillingAddress {
     @JsonBackReference
     private User user;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH},
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
             mappedBy = "address")
     @JsonManagedReference
     private List<Template> templates;

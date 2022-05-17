@@ -29,7 +29,7 @@ public class Template {
     @Column(name = "purpose_of_payment")
     private String purposeOfPayment;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "billing_address_id")
     @JsonBackReference
     private BillingAddress address;
