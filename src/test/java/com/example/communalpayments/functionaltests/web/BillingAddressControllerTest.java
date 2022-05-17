@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static com.example.communalpayments.functionaltests.web.PaymentControllerTest.getObjectMapper;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -96,7 +97,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
 
     @Test
     void getAllAddressesByUserIdTest() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = getObjectMapper();
 
         User user = userRepository.save(User.builder()
                 .lastName("Ivanov")
@@ -121,11 +122,11 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .get("/api/billing-addresses/user/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.CHECK_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
                 .extract();
 
         String jsonResponse = response.asString();
-        List<BillingAddress> addresses = addressRepository.getBillingAddressesByUserId(user.getId());
+        List<BillingAddress> addresses = addressRepository.getBillingAddressesByUserId(1);
         BillingAddress address = addresses.stream().findAny().orElseThrow();
         assertEquals(1, addresses.size());
         assertEquals(1, address.getUser().getId());
@@ -172,7 +173,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .get("/api/billing-addresses/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.CHECK_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
                 .assertThat()
                 .body("id", Matchers.equalTo(1))
                 .body("address", Matchers.equalTo("Днепр, Калиновая, 95"));

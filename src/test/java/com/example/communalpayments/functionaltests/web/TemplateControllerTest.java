@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static com.example.communalpayments.functionaltests.web.PaymentControllerTest.getObjectMapper;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -109,7 +110,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
 
     @Test
     void getAllTemplatesByAddressIdTest() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = getObjectMapper();
 
         User user = userRepository.save(User.builder()
                 .lastName("Ivanov")
@@ -138,12 +139,12 @@ public class TemplateControllerTest extends BaseFunctionalTest {
                 .get("/api/templates/billing-address/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.CHECK_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
                 .extract();
 
         String responseJson = response.asString();
 
-        List<Template> templates = templateRepository.findAll();
+        List<Template> templates = templateRepository.getTemplatesByAddressId(1);
         Template template = templates.stream().findAny().orElseThrow();
         assertEquals(1, templates.size());
         assertEquals(1, template.getAddress().getId());
@@ -194,7 +195,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
                 .get("/api/templates/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.CHECK_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
                 .body("id", Matchers.equalTo(1))
                 .body("name", Matchers.equalTo("газ"))
                 .body("iban", Matchers.equalTo("UA230256899632123000000253696"))

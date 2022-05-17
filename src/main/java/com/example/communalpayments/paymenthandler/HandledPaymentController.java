@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @Slf4j
 @RestController
 @RequestMapping("/api/handled-payments")
@@ -26,7 +27,7 @@ public class HandledPaymentController {
     public ResponseEntity<HttpStatus> savePayment(@RequestBody HandledPaymentDto paymentDto) {
         try {
             handledPaymentService.save(paymentDto);
-            return ResponseEntity.ok(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (PaymentNotFoundException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

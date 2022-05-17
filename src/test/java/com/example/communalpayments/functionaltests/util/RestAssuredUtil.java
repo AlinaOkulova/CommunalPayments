@@ -10,7 +10,7 @@ import static org.apache.http.HttpStatus.*;
 @UtilityClass
 public class RestAssuredUtil {
 
-    public static final ResponseSpecification CHECK_STATUS_CODE_AND_CONTENT_TYPE =
+    public static final ResponseSpecification OK_STATUS_CODE_AND_CONTENT_TYPE =
             new ResponseSpecBuilder()
                     .expectStatusCode(SC_OK)
                     .expectContentType(MediaType.APPLICATION_JSON_VALUE)
