@@ -32,14 +32,14 @@ public class UserControllerTest extends BaseFunctionalTest {
     }
 
     @AfterEach
-    void teatDown() {
+    void tearDown() {
         userRepository.truncateForTest();
     }
 
     @Test
     void registrationTest() throws IOException {
 
-        try(InputStream userDtoIs = this.getClass().getResourceAsStream("user_dto.json")) {
+        try (InputStream userDtoIs = this.getClass().getResourceAsStream("user_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -72,7 +72,7 @@ public class UserControllerTest extends BaseFunctionalTest {
                 .phoneNumber("0961236545")
                 .build());
 
-        try(InputStream userDtoIs = this.getClass().getResourceAsStream("user_dto.json")) {
+        try (InputStream userDtoIs = this.getClass().getResourceAsStream("user_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -145,7 +145,7 @@ public class UserControllerTest extends BaseFunctionalTest {
                 .phoneNumber("0961236545")
                 .build());
 
-        try(InputStream updatedUserIs = this.getClass().getResourceAsStream("updated_user.json")) {
+        try (InputStream updatedUserIs = this.getClass().getResourceAsStream("updated_user.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -170,7 +170,7 @@ public class UserControllerTest extends BaseFunctionalTest {
     @Test
     void updateUserThrowsUserNotFoundExTest() throws IOException {
 
-        try(InputStream updatedUserIs = this.getClass().getResourceAsStream("updated_user.json")) {
+        try (InputStream updatedUserIs = this.getClass().getResourceAsStream("updated_user.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -204,7 +204,7 @@ public class UserControllerTest extends BaseFunctionalTest {
                 .phoneNumber("0963202535")
                 .build());
 
-        try(InputStream updatedUserIs = this.getClass().getResourceAsStream("updated_user.json")) {
+        try (InputStream updatedUserIs = this.getClass().getResourceAsStream("updated_user.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

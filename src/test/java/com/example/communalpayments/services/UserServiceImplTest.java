@@ -13,9 +13,10 @@ import org.mockito.Mockito;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
 
@@ -127,40 +128,40 @@ class UserServiceImplTest {
         when(userRepository.existsById(2L)).thenReturn(true);
         when(userRepository.getUserByEmail(eq("ivan@gmail.com"))).thenReturn(Optional.of(savedUser));
         when(userRepository.save(eq(User.builder()
-                                    .id(2L)
-                                    .lastName("Ivanov")
-                                    .firstName("Ivan")
-                                    .patronymic("Ivanovych")
-                                    .email("ivan@gmail.com")
-                                    .phoneNumber("0960000001")
-                                    .build()))).thenReturn(User.builder()
-                                                                .id(2L)
-                                                                .lastName("Ivanov")
-                                                                .firstName("Ivan")
-                                                                .patronymic("Ivanovych")
-                                                                .email("ivan@gmail.com")
-                                                                .phoneNumber("0960000001")
-                                                                .build());
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0960000001")
+                .build()))).thenReturn(User.builder()
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0960000001")
+                .build());
 
         User updatedUser = userService.updateUser(User.builder()
-                                                        .id(2L)
-                                                        .lastName("Ivanov")
-                                                        .firstName("Ivan")
-                                                        .patronymic("Ivanovych")
-                                                        .email("ivan@gmail.com")
-                                                        .phoneNumber("0960000001")
-                                                        .build());
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0960000001")
+                .build());
 
         verify(userRepository, times(1)).existsById(eq(2L));
         verify(userRepository, times(1)).getUserByEmail(eq("ivan@gmail.com"));
         verify(userRepository, times(1)).save(eq(User.builder()
-                                                                            .id(2L)
-                                                                            .lastName("Ivanov")
-                                                                            .firstName("Ivan")
-                                                                            .patronymic("Ivanovych")
-                                                                            .email("ivan@gmail.com")
-                                                                            .phoneNumber("0960000001")
-                                                                            .build()));
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0960000001")
+                .build()));
 
         assertEquals(2, updatedUser.getId());
         assertEquals("Ivanov", updatedUser.getLastName());
@@ -177,13 +178,13 @@ class UserServiceImplTest {
 
         UserNotFoundException exception = assertThrows(UserNotFoundException.class,
                 () -> userService.updateUser(User.builder()
-                                                    .id(2L)
-                                                    .lastName("Ivanov")
-                                                    .firstName("Ivan")
-                                                    .patronymic("Ivanovych")
-                                                    .email("ivan@gmail.com")
-                                                    .phoneNumber("0960000001")
-                                                    .build()));
+                        .id(2L)
+                        .lastName("Ivanov")
+                        .firstName("Ivan")
+                        .patronymic("Ivanovych")
+                        .email("ivan@gmail.com")
+                        .phoneNumber("0960000001")
+                        .build()));
 
         verify(userRepository, times(1)).existsById(eq(2L));
         verify(userRepository, times(0)).getUserByEmail(any());
@@ -196,34 +197,34 @@ class UserServiceImplTest {
     void updateUserThrowsUserEmailExistsExTest() {
         when(userRepository.existsById(2L)).thenReturn(true);
         when(userRepository.getUserByEmail("ivan@gmail.com")).thenReturn(Optional.of(User.builder()
-                                                                                    .id(10L)
-                                                                                    .lastName("Semenov")
-                                                                                    .firstName("Ivan")
-                                                                                    .patronymic("Semenovych")
-                                                                                    .email("ivan@gmail.com")
-                                                                                    .phoneNumber("0730230056")
-                                                                                    .build()));
+                .id(10L)
+                .lastName("Semenov")
+                .firstName("Ivan")
+                .patronymic("Semenovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0730230056")
+                .build()));
 
         UserEmailExistsException exception = assertThrows(UserEmailExistsException.class,
                 () -> userService.updateUser(User.builder()
-                                                    .id(2L)
-                                                    .lastName("Ivanov")
-                                                    .firstName("Ivan")
-                                                    .patronymic("Ivanovych")
-                                                    .email("ivan@gmail.com")
-                                                    .phoneNumber("0960000001")
-                                                    .build()));
+                        .id(2L)
+                        .lastName("Ivanov")
+                        .firstName("Ivan")
+                        .patronymic("Ivanovych")
+                        .email("ivan@gmail.com")
+                        .phoneNumber("0960000001")
+                        .build()));
 
         verify(userRepository, times(1)).existsById(eq(2L));
         verify(userRepository, times(1)).getUserByEmail(eq("ivan@gmail.com"));
         verify(userRepository, times(0)).save(eq(User.builder()
-                                                                        .id(2L)
-                                                                        .lastName("Ivanov")
-                                                                        .firstName("Ivan")
-                                                                        .patronymic("Ivanovych")
-                                                                        .email("ivan@gmail.com")
-                                                                        .phoneNumber("0960000001")
-                                                                        .build()));
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0960000001")
+                .build()));
 
         assertEquals("Пользователь с заданным email уже существует", exception.getMessage());
     }

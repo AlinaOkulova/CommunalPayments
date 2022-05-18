@@ -11,7 +11,8 @@ import org.mockito.Mockito;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class HandledPaymentServiceImplTest {
@@ -32,20 +33,20 @@ class HandledPaymentServiceImplTest {
 
         paymentDto = new HandledPaymentDto(10L, PaymentStatus.DONE);
         handledPayment = Payment.builder()
-                                .id(10L)
-                                .template(Template
-                                        .builder()
-                                        .id(5L)
-                                        .name("отопление")
-                                        .iban("UA231236580000000123654800023")
-                                        .purposeOfPayment("отопление лиц. счет 123658")
-                                        .build())
-                                .cardNumber("4441114450791395")
-                                .amount(896.15)
-                                .status(PaymentStatus.DONE)
-                                .timeOfCreation(LocalDateTime.now())
-                                .timeStatusChange(LocalDateTime.now())
-                                .build();
+                .id(10L)
+                .template(Template
+                        .builder()
+                        .id(5L)
+                        .name("отопление")
+                        .iban("UA231236580000000123654800023")
+                        .purposeOfPayment("отопление лиц. счет 123658")
+                        .build())
+                .cardNumber("4441114450791395")
+                .amount(896.15)
+                .status(PaymentStatus.DONE)
+                .timeOfCreation(LocalDateTime.now())
+                .timeStatusChange(LocalDateTime.now())
+                .build();
     }
 
     @Test

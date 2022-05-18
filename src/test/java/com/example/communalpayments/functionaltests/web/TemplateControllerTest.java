@@ -45,7 +45,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
     }
 
     @AfterEach
-    void teatDown() {
+    void tearDown() {
         userRepository.truncateForTest();
         addressRepository.truncateForTest();
         templateRepository.truncateForTest();
@@ -133,14 +133,14 @@ public class TemplateControllerTest extends BaseFunctionalTest {
         }
 
         ExtractableResponse<Response> response =
-        given()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .get("/api/templates/billing-address/1")
-                .then()
-                .log().body()
-                .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
-                .extract();
+                given()
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .get("/api/templates/billing-address/1")
+                        .then()
+                        .log().body()
+                        .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
+                        .extract();
 
         String responseJson = response.asString();
 
@@ -168,7 +168,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
     }
 
     @Test
-     void getTemplateByIdTest() throws IOException {
+    void getTemplateByIdTest() throws IOException {
         User user = userRepository.save(User.builder()
                 .lastName("Ivanov")
                 .firstName("Ivan")
@@ -200,7 +200,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
                 .body("name", Matchers.equalTo("газ"))
                 .body("iban", Matchers.equalTo("UA230256899632123000000253696"))
                 .body("purposeOfPayment", Matchers.equalTo("за газ лиц.счет 235689"));
-     }
+    }
 
     @Test
     void getTemplateByIdThrowsExTest() {

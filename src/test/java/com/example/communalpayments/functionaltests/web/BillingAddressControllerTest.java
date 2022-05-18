@@ -40,7 +40,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
     }
 
     @AfterEach
-    void teatDown() {
+    void tearDown() {
         addressRepository.truncateForTest();
         userRepository.truncateForTest();
     }
@@ -55,7 +55,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .phoneNumber("0961236545")
                 .build());
 
-        try(InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
+        try (InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -78,7 +78,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
     @Test
     void createBillingAddressThrowsExTest() throws IOException {
 
-        try(InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
+        try (InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -107,7 +107,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .phoneNumber("0961236545")
                 .build());
 
-        try(InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
+        try (InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -116,14 +116,14 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
         }
 
         ExtractableResponse<Response> response =
-        given()
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .get("/api/billing-addresses/user/1")
-                .then()
-                .log().body()
-                .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
-                .extract();
+                given()
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .get("/api/billing-addresses/user/1")
+                        .then()
+                        .log().body()
+                        .spec(RestAssuredUtil.OK_STATUS_CODE_AND_CONTENT_TYPE)
+                        .extract();
 
         String jsonResponse = response.asString();
         List<BillingAddress> addresses = addressRepository.getBillingAddressesByUserId(1);
@@ -159,7 +159,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .phoneNumber("0961236545")
                 .build());
 
-        try(InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
+        try (InputStream addressDtoIS = this.getClass().getResourceAsStream("address_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

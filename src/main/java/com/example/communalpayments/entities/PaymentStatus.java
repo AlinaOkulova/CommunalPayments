@@ -4,5 +4,5 @@ public enum PaymentStatus {
     NEW,
     DONE,
     FAILED,
-    IN_PROCESS;
+    IN_PROCESS
 }

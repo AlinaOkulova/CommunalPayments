@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PaymentServiceImplTest {
 
@@ -48,22 +48,22 @@ class PaymentServiceImplTest {
 
         paymentDto = new PaymentDto(5, "4441114450791395", 896.15);
         template = Template
-                    .builder()
-                    .id(5L)
-                    .name("отопление")
-                    .iban("UA231236580000000123654800023")
-                    .purposeOfPayment("отопление лиц. счет 123658")
-                    .build();
+                .builder()
+                .id(5L)
+                .name("отопление")
+                .iban("UA231236580000000123654800023")
+                .purposeOfPayment("отопление лиц. счет 123658")
+                .build();
         unsavedPayment = new Payment(template, "4441114450791395", 896.15);
         savedPayment = Payment.builder()
-                        .id(10L)
-                        .template(template)
-                        .cardNumber("4441114450791395")
-                        .amount(896.15)
-                        .status(unsavedPayment.getStatus())
-                        .timeOfCreation(unsavedPayment.getTimeOfCreation())
-                        .timeStatusChange(unsavedPayment.getTimeStatusChange())
-                        .build();
+                .id(10L)
+                .template(template)
+                .cardNumber("4441114450791395")
+                .amount(896.15)
+                .status(unsavedPayment.getStatus())
+                .timeOfCreation(unsavedPayment.getTimeOfCreation())
+                .timeStatusChange(unsavedPayment.getTimeStatusChange())
+                .build();
     }
 
     @Test
@@ -127,13 +127,13 @@ class PaymentServiceImplTest {
         payments.add(savedPayment);
 
         when(userRepository.findById(2L)).thenReturn(Optional.of(User.builder()
-                                                                    .id(2L)
-                                                                    .lastName("Ivanov")
-                                                                    .firstName("Ivan")
-                                                                    .patronymic("Ivanovych")
-                                                                    .email("ivan@gmail.com")
-                                                                    .phoneNumber("0961254856")
-                                                                    .build()));
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0961254856")
+                .build()));
         when(paymentRepository.getAllByUserId(2L)).thenReturn(payments);
 
         List<Payment> usersPayments = paymentService.getAllPaymentsByUserId(2L);

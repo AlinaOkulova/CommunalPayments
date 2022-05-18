@@ -4,7 +4,10 @@ import com.example.communalpayments.dao.BillingAddressRepository;
 import com.example.communalpayments.dao.PaymentRepository;
 import com.example.communalpayments.dao.TemplateRepository;
 import com.example.communalpayments.dao.UserRepository;
-import com.example.communalpayments.entities.*;
+import com.example.communalpayments.entities.BillingAddress;
+import com.example.communalpayments.entities.Payment;
+import com.example.communalpayments.entities.Template;
+import com.example.communalpayments.entities.User;
 import com.example.communalpayments.functionaltests.BaseFunctionalTest;
 import com.example.communalpayments.functionaltests.util.RestAssuredUtil;
 import com.github.tomakehurst.wiremock.WireMockServer;
@@ -65,7 +68,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
     }
 
     @AfterEach
-    void teatDown() {
+    void tearDown() {
         userRepository.truncateForTest();
         addressRepository.truncateForTest();
         templateRepository.truncateForTest();
@@ -93,7 +96,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                 .address(address)
                 .build());
 
-        try(InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
+        try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -118,7 +121,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
 
     @Test
     void createPaymentTemplateNotFoundExTest() throws IOException {
-        try(InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
+        try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -155,7 +158,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                 .address(address)
                 .build());
 
-        try(InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
+        try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -163,7 +166,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                     .post("/api/payments");
         }
 
-        try(InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
+        try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -202,7 +205,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                 .address(address)
                 .build());
 
-        try(InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
+        try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -267,7 +270,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                 .address(address)
                 .build());
 
-        try(InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
+        try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

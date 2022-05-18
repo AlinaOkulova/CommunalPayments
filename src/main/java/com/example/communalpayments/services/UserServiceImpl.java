@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) throws UserNotFoundException, UserEmailExistsException {
-        if(userRepository.existsById(user.getId())) {
+        if (userRepository.existsById(user.getId())) {
             Optional<User> optional = userRepository.getUserByEmail(user.getEmail());
             if (optional.isPresent()) {
                 if (optional.get().getId() == user.getId()) {

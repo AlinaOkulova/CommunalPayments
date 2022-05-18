@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -55,7 +54,7 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
     }
 
     @AfterEach
-    void teatDown() {
+    void tearDown() {
         userRepository.truncateForTest();
         addressRepository.truncateForTest();
         templateRepository.truncateForTest();
@@ -84,8 +83,8 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
                 .build());
         paymentRepository.save(new Payment(template, "4441114450791395", 896.15));
 
-        try(InputStream paymentHandlerResponseIS =
-                    this.getClass().getResourceAsStream("payment_handler_response.json")) {
+        try (InputStream paymentHandlerResponseIS =
+                     this.getClass().getResourceAsStream("payment_handler_response.json")) {
 
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -108,8 +107,8 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
 
     @Test
     void savePaymentThrowsExTest() throws IOException {
-        try(InputStream paymentHandlerResponseIS =
-                    this.getClass().getResourceAsStream("payment_handler_response.json")) {
+        try (InputStream paymentHandlerResponseIS =
+                     this.getClass().getResourceAsStream("payment_handler_response.json")) {
 
             given()
                     .accept(MediaType.APPLICATION_JSON_VALUE)

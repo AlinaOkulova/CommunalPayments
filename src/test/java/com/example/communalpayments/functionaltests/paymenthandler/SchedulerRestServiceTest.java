@@ -50,7 +50,7 @@ public class SchedulerRestServiceTest extends BaseFunctionalTest {
     }
 
     @AfterEach
-    void teatDown() {
+    void tearDown() {
         userRepository.truncateForTest();
         addressRepository.truncateForTest();
         templateRepository.truncateForTest();

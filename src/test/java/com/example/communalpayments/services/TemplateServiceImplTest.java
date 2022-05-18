@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class TemplateServiceImplTest {
 
@@ -45,28 +45,28 @@ class TemplateServiceImplTest {
                 "отопление лиц. счет 123658", 3);
 
         billingAddress = BillingAddress
-                        .builder()
-                        .id(3L)
-                        .address("Днепр, Калиновая, 23")
-                        .build();
+                .builder()
+                .id(3L)
+                .address("Днепр, Калиновая, 23")
+                .build();
 
         unsavedTemplate = Template
-                            .builder()
-                            .id(0L)
-                            .name("отопление")
-                            .iban("UA231236580000000123654800023")
-                            .purposeOfPayment("отопление лиц. счет 123658")
-                            .address(billingAddress)
-                            .build();
+                .builder()
+                .id(0L)
+                .name("отопление")
+                .iban("UA231236580000000123654800023")
+                .purposeOfPayment("отопление лиц. счет 123658")
+                .address(billingAddress)
+                .build();
 
         savedTemplate = Template
-                        .builder()
-                        .id(5L)
-                        .name("отопление")
-                        .iban("UA231236580000000123654800023")
-                        .purposeOfPayment("отопление лиц. счет 123658")
-                        .address(billingAddress)
-                        .build();
+                .builder()
+                .id(5L)
+                .name("отопление")
+                .iban("UA231236580000000123654800023")
+                .purposeOfPayment("отопление лиц. счет 123658")
+                .address(billingAddress)
+                .build();
     }
 
     @Test

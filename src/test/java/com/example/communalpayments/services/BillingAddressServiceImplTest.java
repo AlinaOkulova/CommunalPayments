@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BillingAddressServiceImplTest {
 
@@ -45,27 +45,27 @@ class BillingAddressServiceImplTest {
         addressDto = new BillingAddressDto("Днепр, Калиновая, 23", 2);
 
         user = User.builder()
-                    .id(2L)
-                    .lastName("Ivanov")
-                    .firstName("Ivan")
-                    .patronymic("Ivanovych")
-                    .email("ivan@gmail.com")
-                    .phoneNumber("0961254856")
-                    .build();
+                .id(2L)
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivan@gmail.com")
+                .phoneNumber("0961254856")
+                .build();
 
         unsavedAddress = BillingAddress
-                        .builder()
-                        .id(0)
-                        .address("Днепр, Калиновая, 23")
-                        .user(user)
-                        .build();
+                .builder()
+                .id(0)
+                .address("Днепр, Калиновая, 23")
+                .user(user)
+                .build();
 
         savedAddress = BillingAddress
-                        .builder()
-                        .id(3L)
-                        .address("Днепр, Калиновая, 23")
-                        .user(user)
-                        .build();
+                .builder()
+                .id(3L)
+                .address("Днепр, Калиновая, 23")
+                .user(user)
+                .build();
     }
 
     @Test
