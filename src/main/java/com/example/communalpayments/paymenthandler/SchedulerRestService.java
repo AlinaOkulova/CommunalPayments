@@ -29,20 +29,21 @@ public class SchedulerRestService {
         this.paymentRepository = repository;
     }
 
-    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 1, timeUnit = TimeUnit.SECONDS)
     public void handleNewPayments() {
         List<Payment> payments = paymentRepository.getPaymentsWhereStatusNewLimit50();
 
         if (!payments.isEmpty()) {
             log.info("Взял в обработку оплаты: " + payments);
-            List<Long> ids = payments.stream().map(Payment::getId).toList();
-            paymentRepository.updateStatusToInProcess(ids);
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<List<Payment>> httpEntity = new HttpEntity<>(payments, httpHeaders);
-            restTemplate.exchange(url, HttpMethod.POST, httpEntity, HttpStatus.class);
-            log.info("Отправил оплаты в сервис Payment handler");
+            sendToPaymentHandlerApi(payments);
+            log.info("Отправил оплаты " + payments + " в сервис Payment handler");
         }
+    }
+
+    private void sendToPaymentHandlerApi(List<Payment> payments) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<List<Payment>> httpEntity = new HttpEntity<>(payments, httpHeaders);
+        restTemplate.exchange(url, HttpMethod.POST, httpEntity, HttpStatus.class);
     }
 }

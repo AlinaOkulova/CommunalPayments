@@ -27,7 +27,7 @@ public class HandledPaymentController {
     public ResponseEntity<HttpStatus> savePayment(@RequestBody HandledPaymentDto paymentDto) {
         try {
             handledPaymentService.save(paymentDto);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (PaymentNotFoundException e) {
             log.error(e.getMessage(), e);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

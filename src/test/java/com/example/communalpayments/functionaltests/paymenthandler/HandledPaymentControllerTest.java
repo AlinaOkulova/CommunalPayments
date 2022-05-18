@@ -6,10 +6,14 @@ import com.example.communalpayments.dao.TemplateRepository;
 import com.example.communalpayments.dao.UserRepository;
 import com.example.communalpayments.entities.*;
 import com.example.communalpayments.functionaltests.BaseFunctionalTest;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -17,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,6 +37,8 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
     private TemplateRepository templateRepository;
     @Autowired
     private PaymentRepository paymentRepository;
+    @Autowired
+    private WireMockServer wireMockServer;
 
     @BeforeEach
     void setUp() {
@@ -38,6 +46,12 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
         addressRepository.truncateForTest();
         templateRepository.truncateForTest();
         paymentRepository.truncateForTest();
+        wireMockServer.stubFor(post(urlEqualTo("/api/payment-handler"))
+                .withHeader(HttpHeaders.CONTENT_TYPE, WireMock.equalTo(MediaType.APPLICATION_JSON_VALUE))
+                .withHeader(HttpHeaders.ACCEPT, containing(MediaType.APPLICATION_JSON_VALUE))
+                .willReturn(aResponse()
+                        .withStatus(HttpStatus.OK.value())
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)));
     }
 
     @AfterEach
@@ -46,6 +60,7 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
         addressRepository.truncateForTest();
         templateRepository.truncateForTest();
         paymentRepository.truncateForTest();
+        wireMockServer.resetAll();
     }
 
     @Test
@@ -80,7 +95,7 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
                     .then()
                     .log().body()
                     .assertThat()
-                    .statusCode(202);
+                    .statusCode(200);
 
             Payment payment = paymentRepository.findById(1L).orElseThrow();
             assertEquals(1, payment.getId());
