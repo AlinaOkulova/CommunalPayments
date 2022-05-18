@@ -49,7 +49,7 @@ public class UserControllerTest extends BaseFunctionalTest {
                     .log().body()
                     .spec(RestAssuredUtil.CREATED_STATUS_CODE_AND_CONTENT_TYPE)
                     .assertThat()
-                    .body("id", Matchers.greaterThan(0));
+                    .body("id", Matchers.equalTo(1));
         }
 
         List<User> users = userRepository.findAll();
@@ -60,6 +60,44 @@ public class UserControllerTest extends BaseFunctionalTest {
         assertEquals("Ivanovych", user.getPatronymic());
         assertEquals("ivanov@gmail.com", user.getEmail());
         assertEquals("0961236545", user.getPhoneNumber());
+    }
+
+    @Test
+    void registrationInvalidEmailTest() throws IOException {
+        try (InputStream userDtoIs = this.getClass().getResourceAsStream("user_dto_invalid_email.json")) {
+            given()
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(userDtoIs)
+                    .post("/api/users/registration")
+                    .then()
+                    .log().body()
+                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .assertThat()
+                    .body(Matchers.equalTo("Email введен неккоректно"));
+        }
+
+        List<User> users = userRepository.findAll();
+        assertEquals(0, users.size());
+    }
+
+    @Test
+    void registrationInvalidPhoneTest() throws IOException {
+        try (InputStream userDtoIs = this.getClass().getResourceAsStream("user_dto_invalid_phone.json")) {
+            given()
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(userDtoIs)
+                    .post("/api/users/registration")
+                    .then()
+                    .log().body()
+                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .assertThat()
+                    .body(Matchers.equalTo("Используйте мобильный номер телефона: 0992001020"));
+        }
+
+        List<User> users = userRepository.findAll();
+        assertEquals(0, users.size());
     }
 
     @Test
@@ -130,7 +168,7 @@ public class UserControllerTest extends BaseFunctionalTest {
                 .get("/api/users/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .assertThat()
                 .body(Matchers.equalTo("Пользователь с заданным id не существует"));
     }
@@ -178,7 +216,7 @@ public class UserControllerTest extends BaseFunctionalTest {
                     .put("/api/users")
                     .then()
                     .log().body()
-                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                     .assertThat()
                     .body(Matchers.equalTo("Пользователь с заданным id не существует"));
         }

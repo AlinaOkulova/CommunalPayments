@@ -86,7 +86,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                     .post("/api/billing-addresses")
                     .then()
                     .log().body()
-                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                     .assertThat()
                     .body(Matchers.equalTo("Пользователь с заданным id не существует"));
 
@@ -144,7 +144,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .get("/api/billing-addresses/user/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .assertThat()
                 .body(Matchers.equalTo("Пользователь с заданным id не существует"));
     }
@@ -187,7 +187,7 @@ public class BillingAddressControllerTest extends BaseFunctionalTest {
                 .get("/api/billing-addresses/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .assertThat()
                 .body(Matchers.equalTo("Платежный адрес с заданным id не существует"));
     }

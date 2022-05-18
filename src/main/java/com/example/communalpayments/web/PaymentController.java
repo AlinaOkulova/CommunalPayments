@@ -7,7 +7,6 @@ import com.example.communalpayments.exceptions.TemplateNotFoundException;
 import com.example.communalpayments.exceptions.UserNotFoundException;
 import com.example.communalpayments.services.interfaces.PaymentService;
 import com.example.communalpayments.web.dto.PaymentDto;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentController {
@@ -29,34 +27,24 @@ public class PaymentController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<?> getAllPaymentsByUserId(@PathVariable long id) {
-        try {
-            List<Payment> payments = paymentService.getAllPaymentsByUserId(id);
-            return ResponseEntity.ok(payments);
-        } catch (UserNotFoundException e) {
-            log.error(e.getMessage(), e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<List<Payment>> getAllPaymentsByUserId(@PathVariable long id)
+            throws UserNotFoundException {
+
+        List<Payment> payments = paymentService.getAllPaymentsByUserId(id);
+        return ResponseEntity.ok(payments);
     }
 
     @PostMapping
-    public ResponseEntity<String> createPayment(@Valid @RequestBody PaymentDto paymentDto) {
-        try {
-            Payment payment = paymentService.createPayment(paymentDto);
-            return new ResponseEntity<>("{\"id\" : " + payment.getId() + "}", HttpStatus.CREATED);
-        } catch (TemplateNotFoundException | PaymentDuplicateException e) {
-            log.error(e.getMessage(), e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> createPayment(@Valid @RequestBody PaymentDto paymentDto)
+            throws PaymentDuplicateException, TemplateNotFoundException {
+
+        Payment payment = paymentService.createPayment(paymentDto);
+        return new ResponseEntity<>("{\n\"id\" : " + payment.getId() + "\n}", HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPayment(@PathVariable long id) {
-        try {
-            return ResponseEntity.ok(paymentService.get(id));
-        } catch (PaymentNotFoundException e) {
-            log.error(e.getMessage(), e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Payment> getPayment(@PathVariable long id) throws PaymentNotFoundException {
+
+        return ResponseEntity.ok(paymentService.get(id));
     }
 }

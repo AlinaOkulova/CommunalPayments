@@ -90,6 +90,37 @@ public class TemplateControllerTest extends BaseFunctionalTest {
     }
 
     @Test
+    void createTemplateInvalidIbanTest() throws IOException {
+        User user = userRepository.save(User.builder()
+                .lastName("Ivanov")
+                .firstName("Ivan")
+                .patronymic("Ivanovych")
+                .email("ivanov@gmail.com")
+                .phoneNumber("0961236545")
+                .build());
+        BillingAddress address = addressRepository.save(BillingAddress.builder()
+                .address("Днепр, Калиновая, 95")
+                .user(user)
+                .build());
+
+        try (InputStream templateDtoIS = this.getClass().getResourceAsStream("template_dto_invalid_iban.json")) {
+            given()
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(templateDtoIS)
+                    .post("/api/templates")
+                    .then()
+                    .log().body()
+                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .assertThat()
+                    .body(Matchers.equalTo("Iban должен начинаться с UA и содержать 29 символов"));
+
+            List<Template> templates = templateRepository.findAll();
+            assertEquals(0, templates.size());
+        }
+    }
+
+    @Test
     void createTemplateThrowsExTest() throws IOException {
         try (InputStream templateDtoIS = this.getClass().getResourceAsStream("template_dto.json")) {
             given()
@@ -99,7 +130,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
                     .post("/api/templates")
                     .then()
                     .log().body()
-                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                     .assertThat()
                     .body(Matchers.equalTo("Платежный адрес с заданным id не существует"));
 
@@ -163,7 +194,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
                 .get("/api/templates/billing-address/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .body(Matchers.equalTo("Платежный адрес с заданным id не существует"));
     }
 
@@ -210,7 +241,7 @@ public class TemplateControllerTest extends BaseFunctionalTest {
                 .get("/api/templates/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .body(Matchers.equalTo("Шаблон с заданным id не существует"));
     }
 }

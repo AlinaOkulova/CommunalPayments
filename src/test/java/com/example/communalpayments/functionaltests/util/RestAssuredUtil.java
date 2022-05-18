@@ -33,11 +33,4 @@ public class RestAssuredUtil {
                     .expectStatusCode(SC_NOT_FOUND)
                     .expectContentType(MediaType.APPLICATION_JSON_VALUE)
                     .build();
-
-    public static final ResponseSpecification INTERNAL_ERROR_STATUS_CODE_AND_CONTENT_TYPE =
-            new ResponseSpecBuilder()
-                    .expectStatusCode(SC_INTERNAL_SERVER_ERROR)
-                    .expectContentType(MediaType.APPLICATION_JSON_VALUE)
-                    .build();
-
 }

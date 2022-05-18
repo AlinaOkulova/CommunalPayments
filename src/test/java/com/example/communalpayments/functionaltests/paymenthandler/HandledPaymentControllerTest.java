@@ -118,7 +118,7 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
                     .then()
                     .log().body()
                     .assertThat()
-                    .statusCode(400);
+                    .statusCode(404);
 
             List<Payment> payments = paymentRepository.findAll();
             assertEquals(0, payments.size());

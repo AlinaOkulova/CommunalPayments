@@ -120,6 +120,25 @@ public class PaymentControllerTest extends BaseFunctionalTest {
     }
 
     @Test
+    void createPaymentInvalidCardTest() throws IOException {
+        try (InputStream invalidCardIS = this.getClass().getResourceAsStream("payment_dto_invalid_card.json")) {
+            given()
+                    .accept(MediaType.APPLICATION_JSON_VALUE)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .body(invalidCardIS)
+                    .post("/api/payments")
+                    .then()
+                    .log().body()
+                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .assertThat()
+                    .body(Matchers.equalTo("Номер карты введен неправильно"));
+
+            List<Payment> payments = paymentRepository.findAll();
+            assertEquals(0, payments.size());
+        }
+    }
+
+    @Test
     void createPaymentTemplateNotFoundExTest() throws IOException {
         try (InputStream paymentDtoIS = this.getClass().getResourceAsStream("payment_dto.json")) {
             given()
@@ -129,7 +148,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                     .post("/api/payments")
                     .then()
                     .log().body()
-                    .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                    .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                     .assertThat()
                     .body(Matchers.equalTo("Шаблон с заданным id не существует"));
 
@@ -245,7 +264,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                 .get("/api/payments/user/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .assertThat()
                 .body(Matchers.equalTo("Пользователь с заданным id не существует"));
     }
@@ -299,7 +318,7 @@ public class PaymentControllerTest extends BaseFunctionalTest {
                 .get("/api/payments/1")
                 .then()
                 .log().body()
-                .spec(RestAssuredUtil.BAD_REQUEST_STATUS_CODE_AND_CONTENT_TYPE)
+                .spec(RestAssuredUtil.NOT_FOUND_STATUS_CODE_AND_CONTENT_TYPE)
                 .assertThat()
                 .body(Matchers.equalTo("Платежа с заданным id не существует"));
     }

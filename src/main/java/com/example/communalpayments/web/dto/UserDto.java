@@ -40,6 +40,6 @@ public class UserDto {
     @JsonProperty
     @NotNull
     @Pattern(regexp = "^(039|050|063|066|067|068|073|091|092|093|094|095|096|097|098|099)\\d{3}\\d{2}\\d{2}$",
-            message = "Используйте шаблон: 0951234567")
+            message = "Используйте мобильный номер телефона: 0992001020")
     private String phoneNumber;
 }
