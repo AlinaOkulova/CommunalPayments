@@ -97,7 +97,7 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
                     .assertThat()
                     .statusCode(200);
 
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(2);
 
             Payment payment = paymentRepository.findById(1L).orElseThrow();
             assertEquals(1, payment.getId());
