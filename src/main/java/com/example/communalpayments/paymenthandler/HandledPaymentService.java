@@ -4,5 +4,5 @@ import com.example.communalpayments.exceptions.PaymentNotFoundException;
 
 public interface HandledPaymentService {
 
-    void save(HandledPaymentDto paymentDto) throws PaymentNotFoundException;
+    void addToSaveQueue(HandledPaymentDto paymentDto) throws PaymentNotFoundException;
 }

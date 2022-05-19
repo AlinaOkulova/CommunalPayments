@@ -20,6 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
@@ -63,7 +64,7 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
     }
 
     @Test
-    void savePaymentTest() throws IOException {
+    void savePaymentTest() throws IOException, InterruptedException {
         User user = userRepository.save(User.builder()
                 .lastName("Ivanov")
                 .firstName("Ivan")
@@ -95,6 +96,8 @@ public class HandledPaymentControllerTest extends BaseFunctionalTest {
                     .log().body()
                     .assertThat()
                     .statusCode(200);
+
+            TimeUnit.SECONDS.sleep(1);
 
             Payment payment = paymentRepository.findById(1L).orElseThrow();
             assertEquals(1, payment.getId());

@@ -50,24 +50,22 @@ class HandledPaymentServiceImplTest {
     }
 
     @Test
-    void saveTest() throws PaymentNotFoundException {
+    void addToSaveQueueTest() throws PaymentNotFoundException {
 
         when(mapping.convertDto(eq(paymentDto))).thenReturn(handledPayment);
-        when(repository.save(eq(handledPayment))).thenReturn(handledPayment);
 
-        service.save(paymentDto);
+        service.addToSaveQueue(paymentDto);
 
         verify(mapping, times(1)).convertDto(eq(paymentDto));
-        verify(repository, times(1)).save(eq(handledPayment));
     }
 
     @Test
-    void saveThrowsExTest() throws PaymentNotFoundException {
+    void addToSaveQueueThrowsExTest() throws PaymentNotFoundException {
 
         when(mapping.convertDto(eq(paymentDto))).thenThrow(new PaymentNotFoundException());
 
         PaymentNotFoundException exception = assertThrows(PaymentNotFoundException.class,
-                () -> service.save(paymentDto));
+                () -> service.addToSaveQueue(paymentDto));
 
         assertEquals("Платежа с заданным id не существует", exception.getMessage());
     }

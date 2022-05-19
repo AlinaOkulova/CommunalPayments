@@ -25,7 +25,7 @@ public class HandledPaymentController {
     public ResponseEntity<HttpStatus> savePayment(@RequestBody HandledPaymentDto paymentDto)
             throws PaymentNotFoundException {
 
-        handledPaymentService.save(paymentDto);
+        handledPaymentService.addToSaveQueue(paymentDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
